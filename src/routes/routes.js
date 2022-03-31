@@ -17,6 +17,9 @@ const UserPermissionsPage = React.lazy(() =>
 );
 const HelpPage = React.lazy(() => import('screens/help/HelpPage'));
 
+const BusinessGroupPage = React.lazy(() => import('screens/businessGroup/BusinessGroupPage'))
+const BusinessGroupRegisterPage = React.lazy(() => import('screens/businessGroup/BusinessGroupRegisterPage'))
+
 
 const User = Authorize(false, ['USER']);
 
@@ -51,30 +54,52 @@ const routes = [
 		name: 'Users',
 		component: User(UsersPage),
 		permission: true,
-		id: 48,
+		id: 138,
 	},
 	{
 		path: '/usuarios/adicionar',
 		name: 'UserRegister',
 		component: User(UserRegisterPage),
 		permission: true,
-		id: 48,
+		id: 138,
 	},
 	{
 		path: '/usuarios/editar/:id',
 		name: 'UserEdit',
 		component: User(UserRegisterPage),
 		permission: true,
-		id: 48,
+		id: 138,
 	},
 	{
 		path: '/usuarios/permissoes',
 		name: 'UserPermissions',
 		component: User(UserPermissionsPage),
 		permission: true,
-		id: 48,
+		id: 138,
 	},
 
+	//BUSINESS GROUP ROUTES
+	{
+		path: '/business-group',
+		name: 'Business-group',
+		component: User(BusinessGroupPage),
+		permission: true,
+		id: 142,
+	},
+	{
+		path: '/business-group/add',
+		name: 'Business-group-add',
+		component: User(BusinessGroupRegisterPage),
+		permission: true,
+		id: 142,
+	},
+	{
+		path: '/business-group/editar/:id',
+		name: 'Business-group-edit',
+		component: User(BusinessGroupRegisterPage),
+		permission: true,
+		id: 142,
+	},
 	
 ];
 

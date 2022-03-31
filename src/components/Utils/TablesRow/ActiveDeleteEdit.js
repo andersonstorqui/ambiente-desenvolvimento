@@ -37,7 +37,7 @@ const ActiveDeleteEdit = ({
 				<MdDelete size={15} />
 			</Badge>
 			<Switch
-				defaultChecked={row.status}
+				defaultChecked={row.active}
 				onChange={() => changeValue(row)}
 				id={`switch${row.id}`}
 			/>

@@ -113,6 +113,7 @@ class UsersPage extends React.Component {
 							)
 						}
 					/>
+					
 				</LoadingContent>
 			</Page>
 		);

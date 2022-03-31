@@ -1,5 +1,5 @@
-import { MdBuild, MdDashboard, MdApps, MdDeliveryDining, MdPointOfSale, MdListAlt, MdOutlineBrandingWatermark } from 'react-icons/md';
-import { FaUserAlt } from 'react-icons/fa';
+import { MdBuild, MdDashboard, MdApps, MdOutlinePersonPinCircle, MdBusiness, MdListAlt, MdOutlineBrandingWatermark } from 'react-icons/md';
+import { FaUserAlt, FaMountain } from 'react-icons/fa';
 
 export const navItems = [
 	{
@@ -21,6 +21,25 @@ export const navAux = [
 	
 ];
 
+export const navApp = [
+	{
+		to: '/client',
+		name: 'Cliente',
+		exact: false,
+		IconSub: MdOutlinePersonPinCircle,
+		id: 141
+	},
+	{
+		to: '/business-group',
+		name: 'Grupo empresarial',
+		exact: false,
+		IconSub: MdBusiness,
+		id: 142
+	}
+]
+
+
+
 
 
 export const routes = [
@@ -30,5 +49,9 @@ export const routes = [
 		submodules: navAux,
 	},
 	
-	
+	{
+		name: 'Aplicações',
+		icon: MdApps,
+		submodules: navApp
+	}
 ];
