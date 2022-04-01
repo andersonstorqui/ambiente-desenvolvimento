@@ -16,13 +16,9 @@ export function* getBusinesGroup(payload) {
 		yield put(apiActions.apiStart());
 	}
 
-	let query = '';
+	let { query } = payload;
 
-	if (payload.query !== '') {
-		query = `?${payload.query}`;
-	}
-
-	yield put(apiActions.setQueryFilter(payload.query));
+	yield put(apiActions.setQueryFilter(query));
 
 	try {
 		const response = yield call(businessGroupApi.getBusinessGroup, query);
@@ -136,7 +132,7 @@ export function* deleteBusinessGroup(payload) {
 	const id = payload.group;
 
 	try {
-		const response = yield call(businessGroupApi.deleteBusinessGroup, {id: id});
+		const response = yield call(businessGroupApi.deleteBusinessGroup, { id: id });
 
 		if (response.status) {
 			yield put(

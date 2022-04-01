@@ -73,11 +73,7 @@ class BussinesGroup extends React.Component {
 					columns={columns}
 					handleNavigation={page => navigate(page)}
 					loadingFilter={loading}
-					onSubmitFilter={data =>
-						onGetList(
-							queryString.stringify(data, { skipNull: true }),
-						)
-					}
+					onSubmitFilter={data => onGetList(data)}
 					/>
 					<ModalDelete
 						name={select ? select.group : ''}
