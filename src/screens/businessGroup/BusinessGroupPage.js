@@ -62,7 +62,6 @@ class BussinesGroup extends React.Component {
 		} = this.props;
 		const { columns } = this.state;
 
-		console.log('teste')
 		return (
 			<Page
 				className="users"
