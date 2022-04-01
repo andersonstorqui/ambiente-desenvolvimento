@@ -6,3 +6,4 @@ export { enterpriseActions } from '../ducks/enterprise';
 export { genericsActions } from '../ducks/generics';
 export { groupsActions } from '../ducks/groups';
 export { businessGroupActions } from '../ducks/businessGroup';
+export { operationSegActions } from '../ducks/operationSeg';

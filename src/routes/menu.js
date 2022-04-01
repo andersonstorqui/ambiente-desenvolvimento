@@ -1,6 +1,5 @@
-import { MdBuild, MdDashboard, MdApps, MdOutlinePersonPinCircle, MdBusiness, MdListAlt, MdOutlineBrandingWatermark } from 'react-icons/md';
-import { FaUserAlt, FaMountain } from 'react-icons/fa';
-
+import { MdBuild, MdDashboard, MdApps, MdOutlinePersonPinCircle, MdBusiness, MdSegment, MdOutlineBrandingWatermark } from 'react-icons/md';
+import { FaUserAlt } from 'react-icons/fa';
 export const navItems = [
 	{
 		to: '/',
@@ -18,7 +17,7 @@ export const navAux = [
 		IconSub: FaUserAlt,
 		id: 138,
 	},
-	
+
 ];
 
 export const navApp = [
@@ -35,6 +34,13 @@ export const navApp = [
 		exact: false,
 		IconSub: MdBusiness,
 		id: 142
+	},
+	{
+		to: '/operation-segment',
+		name: 'Segmento de atuação',
+		exact: false,
+		IconSub: MdSegment,
+		id: 143
 	}
 ]
 
@@ -48,7 +54,7 @@ export const routes = [
 		icon: MdBuild,
 		submodules: navAux,
 	},
-	
+
 	{
 		name: 'Aplicações',
 		icon: MdApps,

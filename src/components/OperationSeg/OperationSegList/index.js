@@ -4,9 +4,8 @@ import { Fab } from 'react-tiny-fab';
 import { MdAdd } from 'react-icons/md';
 import Filter from './Filter';
 import DataTable from '../../Utils/DataTable';
-import R from '../../../lib/constants/R';
 
-class BusinessGroupList extends React.Component {
+class OperationSegmentList extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -53,14 +52,14 @@ class BusinessGroupList extends React.Component {
 					event="click"
 					icon={<MdAdd />}
 					onClick={() => handleNavigation('/operation-segment/add')}
-					text="Adicionar Grupo empresarial"
+					text="Adicionar Segmento de atuação"
 				/>
 			</div>
 		);
 	}
 }
 
-BusinessGroupList.propTypes = {
+OperationSegmentList.propTypes = {
 	handleNavigation: PropTypes.func.isRequired,
 	data: PropTypes.arrayOf(PropTypes.object).isRequired,
 	columns: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -70,6 +69,6 @@ BusinessGroupList.propTypes = {
 	loadingFilter: PropTypes.bool.isRequired,
 };
 
-BusinessGroupList.defaultProps = {};
+OperationSegmentList.defaultProps = {};
 
-export default BusinessGroupList;
+export default OperationSegmentList;

@@ -20,6 +20,8 @@ const HelpPage = React.lazy(() => import('screens/help/HelpPage'));
 const BusinessGroupPage = React.lazy(() => import('screens/businessGroup/BusinessGroupPage'))
 const BusinessGroupRegisterPage = React.lazy(() => import('screens/businessGroup/BusinessGroupRegisterPage'))
 
+const OperationSegmentPage = React.lazy(() => import('screens/operationSeg/OperationSegPage'))
+const OperationSegmentRegisterPage = React.lazy(() => import('screens/operationSeg/OperationSegRegisterPage'))
 
 const User = Authorize(false, ['USER']);
 
@@ -99,6 +101,29 @@ const routes = [
 		component: User(BusinessGroupRegisterPage),
 		permission: true,
 		id: 142,
+	},
+
+	//OPERATION SEGMENT ROUTES
+	{
+		path: '/operation-segment',
+		name: 'Operation Segment',
+		component: User(OperationSegmentPage),
+		permission: true,
+		id: 143,
+	},
+	{
+		path: '/operation-segment/add',
+		name: 'Operation Segment add',
+		component: User(OperationSegmentRegisterPage),
+		permission: true,
+		id: 143,
+	},
+	{
+		path: '/operation-segment/editar/:id',
+		name: 'Operation Segment add',
+		component: User(OperationSegmentRegisterPage),
+		permission: true,
+		id: 143,
 	},
 	
 ];
