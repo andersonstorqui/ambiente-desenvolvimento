@@ -1,4 +1,4 @@
-import { MdBuild, MdDashboard, MdApps, MdOutlinePersonPinCircle, MdBusiness, MdSegment, MdOutlineBrandingWatermark } from 'react-icons/md';
+import { MdBuild, MdDashboard, MdApps, MdOutlinePersonPinCircle, MdBusiness, MdSegment, MdOutlineVerticalDistribute } from 'react-icons/md';
 import { FaUserAlt } from 'react-icons/fa';
 export const navItems = [
 	{
@@ -41,6 +41,13 @@ export const navApp = [
 		exact: false,
 		IconSub: MdSegment,
 		id: 143
+	},
+	{
+		to: '/dist',
+		name: 'Distribuidora',
+		exact: false,
+		IconSub: MdOutlineVerticalDistribute,
+		id: 144
 	}
 ]
 

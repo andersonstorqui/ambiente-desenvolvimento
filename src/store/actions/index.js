@@ -7,3 +7,5 @@ export { genericsActions } from '../ducks/generics';
 export { groupsActions } from '../ducks/groups';
 export { businessGroupActions } from '../ducks/businessGroup';
 export { operationSegActions } from '../ducks/operationSeg';
+export { distActions } from '../ducks/dist';
+export { clientActions } from '../ducks/client';

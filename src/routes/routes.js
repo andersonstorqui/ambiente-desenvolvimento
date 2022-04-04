@@ -23,6 +23,13 @@ const BusinessGroupRegisterPage = React.lazy(() => import('screens/businessGroup
 const OperationSegmentPage = React.lazy(() => import('screens/operationSeg/OperationSegPage'))
 const OperationSegmentRegisterPage = React.lazy(() => import('screens/operationSeg/OperationSegRegisterPage'))
 
+const DistPage = React.lazy(() => import('screens/dist/DistPage'));
+const DistRegisterPage = React.lazy(() => import('screens/dist/DistRegisterPage'));
+
+const ClientPage = React.lazy(() => import('screens/client/ClientPage'));
+const ClientRegisterPage = React.lazy(() => import('screens/client/ClientRegisterPage'));
+
+
 const User = Authorize(false, ['USER']);
 
 const routes = [
@@ -80,6 +87,28 @@ const routes = [
 		id: 138,
 	},
 
+	//CLIENT ROUTES
+	{
+		path: '/client',
+		name: 'Client',
+		component: User(ClientPage),
+		permission: true,
+		id: 141,
+	},
+	{
+		path: '/client/add',
+		name: 'Client add',
+		component: User(ClientRegisterPage),
+		permission: true,
+		id: 141,
+	},
+	{
+		path: '/client/editar/:id',
+		name: 'Client editar',
+		component: User(ClientRegisterPage),
+		permission: true,
+		id: 141,
+	},
 	//BUSINESS GROUP ROUTES
 	{
 		path: '/business-group',
@@ -124,6 +153,29 @@ const routes = [
 		component: User(OperationSegmentRegisterPage),
 		permission: true,
 		id: 143,
+	},
+
+	//DIST ROUTES
+	{
+		path: '/dist',
+		name: 'dist',
+		component: User(DistPage),
+		permission: true,
+		id: 144,
+	},
+	{
+		path: '/dist/add',
+		name: 'dist add',
+		component: User(DistRegisterPage),
+		permission: true,
+		id: 144,
+	},
+	{
+		path: '/dist/editar/:id',
+		name: 'dist edit',
+		component: User(DistRegisterPage),
+		permission: true,
+		id: 144,
 	},
 	
 ];

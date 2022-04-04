@@ -8,6 +8,8 @@ import genericsReducer from '../ducks/generics';
 import groupsReducer from '../ducks/groups';
 import businessGroupReducer from '../ducks/businessGroup';
 import operationSegReducer from '../ducks/operationSeg';
+import distReducer from '../ducks/dist';
+import clientReducer from '../ducks/client';
 
 const rootReducer = combineReducers({
 	auth: authReducer,
@@ -18,7 +20,9 @@ const rootReducer = combineReducers({
 	generics: genericsReducer,
 	group: groupsReducer,
 	business: businessGroupReducer,
-	segment: operationSegReducer
+	segment: operationSegReducer,
+	dist: distReducer,
+	client: clientReducer
 });
 
 export default rootReducer;
