@@ -132,8 +132,9 @@ const FormClient = ({
 	React.useEffect(() => {
 		//estado
 		let stateOption
-		if (list) {
+		if (list && list.state) {
 			stateOption = state.filter(element => element.id == list.state)[0]
+			console.log(stateOption)
 			handleChange(stateOption, setStates, 'state')
 		}
 		//status
