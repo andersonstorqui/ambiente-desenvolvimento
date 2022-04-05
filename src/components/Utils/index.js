@@ -25,3 +25,4 @@ export { default as SelectAsync } from './SelectAsync';
 export { default as SelectAsyncLabel } from './SelectAsyncWithLabel';
 export { default as InputForm } from './InputForm';
 export { default as SelectInput} from './SelectInput';
+export { default as CheckboxLabel } from './CheckboxLabel';

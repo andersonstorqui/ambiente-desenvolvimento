@@ -4,6 +4,8 @@ import ptBR from 'date-fns/locale/pt-BR';
 import moment from 'moment';
 import { today } from '../../lib/utils/functions';
 import PropTypes from '../../lib/utils/propTypes';
+import { FormGroup, InputGroup, InputGroupAddon, Label } from 'reactstrap';
+
 
 registerLocale('ptBR', ptBR);
 
@@ -12,24 +14,30 @@ const DatePickerComponent = ({
 	handleChange,
 	className,
 	placeholderText,
+	label,
 	...rest
 }) => {
 	return (
-		<div className="customDatePickerWidth">
-			<DatePicker
-				selected={
-					startDate !== 'Invalid date'
-						? new Date(moment(startDate, 'DD/MM/YYYY HH:mm Z'))
-						: null
-				}
-				className="form-control"
-				onChange={handleChange}
-				locale="ptBR"
-				dateFormat="dd/MM/yyyy"
-				placeholderText={placeholderText}
-				{...rest}
-			/>
-		</div>
+		<FormGroup {...rest}>
+			<div className="">
+				<Label>{label}</Label>
+				<InputGroup>
+					<DatePicker
+						selected={
+							startDate !== 'Invalid date'
+								? new Date(moment(startDate, 'DD/MM/YYYY HH:mm Z'))
+								: null
+						}
+						className="form-control"
+						onChange={handleChange}
+						locale="ptBR"
+						dateFormat="dd/MM/yyyy"
+						placeholderText={placeholderText}
+						{...rest}
+					/>
+				</InputGroup>
+			</div>
+		</FormGroup>
 	);
 };
 

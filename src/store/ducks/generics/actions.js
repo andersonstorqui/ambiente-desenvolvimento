@@ -69,6 +69,25 @@ export const setOptionalsGrid = optionalsGrid => ({
 export const sideBar = data => ({
 	type: types.OPEN_SIDEBAR,
 	data
+});
+
+export const getState = () => ({
+	type: types.GET_STATE
+});
+
+export const setState = states => ({
+	type: types.SET_STATE,
+	states
+});
+
+export const getCity = state => ({
+	type: types.GET_CITY,
+	state
+});
+
+export const setCity = city => ({
+	type: types.SET_CITY,
+	city
 })
 
 export default {
@@ -86,5 +105,9 @@ export default {
 	setCarrier,
 	getOptionalsGrid,
 	setOptionalsGrid,
-	sideBar
+	sideBar,
+	getState,
+	setState,
+	getCity,
+	setCity
 };

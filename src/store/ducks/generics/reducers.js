@@ -6,7 +6,10 @@ import {
 	SET_CLIENT_LIST,
 	SET_CARRIER,
 	SET_OPTIONALS_GRID,
-	OPEN_SIDEBAR
+	OPEN_SIDEBAR,
+	SET_CITY,
+	SET_STATE,
+	GET_STATE
 } from './types';
 
 const initialState = {
@@ -17,11 +20,28 @@ const initialState = {
 	clientList: [],
 	carrier: [],
 	optionalsGrid: [],
-	isOpen: false
+	isOpen: false,
+	state: [],
+	city: []
 };
 
 const genericsReducer = (state = initialState, action) => {
 	switch (action.type) {
+		case SET_CITY:
+			return {
+				...state,
+				city: action.city,
+			};
+		case GET_STATE:
+			return {
+				...state,
+				city: []
+			}
+		case SET_STATE:
+			return {
+				...state,
+				state: action.states,
+			};
 		case SET_REPRESENTATIVES_ERP:
 			return {
 				...state,

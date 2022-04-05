@@ -8,7 +8,8 @@ import {
 	businessGroupActions,
 	distActions,
 	usersActions,
-	operationSegActions
+	operationSegActions,
+	genericsActions
 } from '../../store/actions';
 import { LoadingContent, Page } from '../../components/Utils/Page';
 import PropTypes from '../../lib/utils/propTypes';
@@ -31,6 +32,7 @@ class ClientRegisterPage extends React.Component {
 			onGetDist,
 			onGetSegment,
 			onGetListUsers,
+			onGetStates,
 			match,
 		} = this.props;
 
@@ -44,7 +46,7 @@ class ClientRegisterPage extends React.Component {
 		await onGetDist({ active: true });
 		await onGetSegment({ active: true });
 		await onGetListUsers();
-
+		await onGetStates();
 		if (id) {
 			await onGetClient(id);
 		}
@@ -61,6 +63,11 @@ class ClientRegisterPage extends React.Component {
 		}
 	};
 
+	getCity = id => {
+		const { onGetCity } = this.props;
+		onGetCity(id)
+	}
+
 	render() {
 		const { id } = this.state;
 
@@ -70,6 +77,8 @@ class ClientRegisterPage extends React.Component {
 			loading,
 			dist,
 			segment,
+			states,
+			city,
 			user
 		} = this.props;
 
@@ -88,11 +97,12 @@ class ClientRegisterPage extends React.Component {
 		if (segment != false) {
 			segmentOptions = segment.map(index => ({ id: index.id, name: index.segment }))
 		}
-		//OPTIONS SEGMENT
+		//USER
 		let userOptions
 		if (user != false) {
 			userOptions = user.map(index => ({ id: index.id, name: `${index.first_name} ${index.last_name}` }))
 		}
+
 
 		return (
 			<Page
@@ -113,6 +123,9 @@ class ClientRegisterPage extends React.Component {
 						dist={distOptions || []}
 						segment={segmentOptions || []}
 						user={userOptions || []}
+						state={states || []}
+						city={city || []}
+						getCity={id => this.getCity(id)}
 						onSubmit={data => this.onSubmit(data)}
 						handleNavigation={() => navigateBack()}
 					/>
@@ -130,7 +143,8 @@ const mapStateToProps = state => {
 		dist: state.dist.list,
 		segment: state.segment.list,
 		user: state.user.list,
-
+		states: state.generics.state,
+		city: state.generics.city
 	};
 };
 
@@ -145,6 +159,9 @@ const mapDispatchToProps = dispatch => {
 		onGetDist: query => dispatch(distActions.getDist(query)),
 		onGetSegment: query => dispatch(operationSegActions.getOperationSeg(query)),
 		onGetListUsers: query => dispatch(usersActions.getListUsers(query)),
+		onGetStates: () => dispatch(genericsActions.getState()),
+		onGetCity: id => dispatch(genericsActions.getCity(id)),
+
 	};
 };
 

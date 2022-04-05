@@ -13,6 +13,13 @@ export const GET_CARRIER = 'generics/GET_CARRIER';
 export const SET_OPTIONALS_GRID = 'generics/SET_OPTIONALS_GRID';
 export const GET_OPTIONALS_GRID = 'generics/GET_OPTIONALS_GRID';
 export const OPEN_SIDEBAR = 'generics/OPEN_SIDEBAR';
+export const GET_STATE = 'generics/GET_STATE';
+export const SET_STATE = 'generics/SET_STATE';
+export const GET_CITY = 'generics/GET_CITY';
+export const SET_CITY = 'generics/SET_CITY';
+
+
+
 
 export default {
 	GET_REPRESENTATIVES_ERP,
@@ -29,5 +36,9 @@ export default {
 	GET_CARRIER,
 	SET_OPTIONALS_GRID,
 	GET_OPTIONALS_GRID,
-	OPEN_SIDEBAR
+	OPEN_SIDEBAR,
+	GET_STATE,
+	SET_STATE,
+	GET_CITY,
+	SET_CITY
 };

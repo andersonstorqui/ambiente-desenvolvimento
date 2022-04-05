@@ -23,8 +23,8 @@ class ClientPage extends React.Component {
 					width: '10%',
 				},
 				{
-					name: 'Distribuidora',
-					selector: 'dist',
+					name: 'Cliente',
+					selector: 'client',
 					sortable: true,
 					width: '75%',
 				},
@@ -36,7 +36,7 @@ class ClientPage extends React.Component {
 						<ActiveDeleteEdit
 							row={row}
 							onSelect={value => onSelect(value)}
-							route="dist"
+							route="client"
 							handleNavigation={page => navigate(page)}
 							changeValue={group => onActiveDesactiveClient(group)}
 						/>

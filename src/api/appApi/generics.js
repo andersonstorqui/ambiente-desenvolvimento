@@ -23,3 +23,6 @@ export const editClient = (id, data) =>
 export const getClientList = () => api.get('/generic/customer');
 
 export const getCarrier = () => api.get('/generic/utils/carrier');
+
+export const getState = () => api.get('/auxiliares/states');
+export const getCity = query => api.get('/auxiliares/city', {params: query});
