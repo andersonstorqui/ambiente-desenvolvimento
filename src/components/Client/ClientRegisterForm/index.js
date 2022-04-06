@@ -117,46 +117,50 @@ const FormClient = ({
 
 	//VARS
 	const [active, setActive] = useState({ selectedOption: {} });
-	const [group, setGroup] = useState({ selectedOption: list ? { id: list.group, name: 'Teste' } : {} });
+	const [group, setGroup] = useState({ selectedOption: {} });
 	const [segmentValue, setSegment] = useState({ selectedOption: list ? { id: list.operating_seg, name: 'teste' } : {} });
-	const [distValue, setDist] = useState({ selectedOption: list ? { id: list.dist, name: 'teste' } : {} });
+	const [distValue, setDist] = useState({ selectedOption: {} });
 	const [states, setStates] = useState({ selectedOption: {} });
-	const [aproCred, setAproCred] = useState({ selectedOption: {}});
-	const [monitoring, setMonitoring] = useState({selectedOption: {}});
-	const [statusMonitoring, setStatusMonitoring] = useState({selectedOption: {}});
-	const [tarife, setTarife] = useState({selectedOption: {}});
-	const [geradorPonta, setGeradorPonta] = useState({selectedOption: {}});
-	const [sazonal, setSazanol] = useState({selectedOption: {}});
-	const [rural, setRural] = useState({selectedOption: {}});
-
+	const [aproCred, setAproCred] = useState({ selectedOption: {} });
+	const [monitoring, setMonitoring] = useState({ selectedOption: {} });
+	const [statusMonitoring, setStatusMonitoring] = useState({ selectedOption: {} });
+	const [tarife, setTarife] = useState({ selectedOption: {} });
+	const [geradorPonta, setGeradorPonta] = useState({ selectedOption: {} });
+	const [sazonal, setSazanol] = useState({ selectedOption: {} });
+	const [rural, setRural] = useState({ selectedOption: {} });
+	const [categoria, setCategoria] = useState({selectedOption: {}})
+	const [submercado, setSubmercado] = useState({selectedOption: {}})
 	React.useEffect(() => {
 		//estado
 		let stateOption
 		if (list && list.state) {
 			stateOption = state.filter(element => element.id == list.state)[0]
-			console.log(stateOption)
 			handleChange(stateOption, setStates, 'state')
 		}
 		//status
 		let status
 		if (list && list.active) {
 			status = { id: true, name: 'Ativo' }
+			handleChange(status, setActive, 'active')
+
 		} else {
 			status = { id: false, name: 'Inativo' }
+			handleChange(status, setActive, 'active')
 		}
-		handleChange(status, setActive, 'active')
 		//aproveita crédito
 		let apro_cred
 		if (list && list.apro_cred) {
 			apro_cred = { id: true, name: 'Sim' }
+			handleChange(apro_cred, setAproCred, 'apro_cred')
+
 		} else {
 			apro_cred = { id: false, name: 'Não' }
+			handleChange(apro_cred, setAproCred, 'apro_cred')
 		}
-		handleChange(apro_cred, setAproCred, 'apro_cred')
 		//monitoramento
 		let monitoring
 		if (list && list.monitoring) {
-			monitoring = { id: list.monitoring, name: monitoring == 1 && 'AUTOMAS' || monitoring == 2 && 'GEBRAS' || 'VETORLOG'}
+			monitoring = { id: list.monitoring, name: monitoring == 1 && 'AUTOMAS' || monitoring == 2 && 'GEBRAS' || 'VETORLOG' }
 			handleChange(monitoring, setMonitoring, 'monitoring')
 		}
 		//status monitoramento
@@ -168,26 +172,56 @@ const FormClient = ({
 		//tarifa
 		let tarifeV
 		if (list && list.tarife) {
-			tarifeV = { id: list.tarife, name: list.tarife == 1 && 'Azul' || 'Verde'}
+			tarifeV = { id: list.tarife, name: list.tarife == 1 && 'Azul' || 'Verde' }
 			handleChange(tarifeV, setTarife, 'tarife')
 		}
 		//gerador Ponta
 		let gerPont
 		if (list && list.gerador_ponta) {
-			gerPont = { id: list.gerador_ponta, name: list.gerador_ponta && 'Sim' || 'Não'}
+			gerPont = { id: list.gerador_ponta, name: list.gerador_ponta && 'Sim' || 'Não' }
 			handleChange(gerPont, setGeradorPonta, 'gerador_ponta')
 		}
 		//sazanal
 		let sazonal
 		if (list && list.sazonal) {
-			sazonal = { id: list.sazonal, name: list.sazonal && 'Sim' || 'Não'}
+			sazonal = { id: list.sazonal, name: list.sazonal && 'Sim' || 'Não' }
 			handleChange(sazonal, setSazanol, 'sazanal')
 		}
 		//rural
 		let rural
 		if (list && list.rural) {
-			rural = { id: list.rural, name: list.rural && 'Sim' || 'Não'}
+			rural = { id: list.rural, name: list.rural && 'Sim' || 'Não' }
 			handleChange(rural, setRural, 'rural')
+		}
+		//grupo
+		let groupOption
+		if (list && list.group) {
+			groupOption = { id: list.group, name: list.group_name }
+			handleChange(groupOption, setGroup, 'group')
+		}
+		//dist
+		let distOption
+		if(list && list.dist){
+			distOption = {id: list.dist, name: list.dist_name}
+			handleChange(distOption, setDist, 'dist')
+		}
+		//
+		let segmentOption
+		if(list && list.operating_seg){
+			segmentOption = {id: list.operating_seg, name: list.segment_name}
+			handleChange(segmentOption, setSegment, 'segment')
+		}
+		//categorias
+		let categoriasOption
+		if(list && list.categoria){
+			categoriasOption = categoriaClient.filter(element => element.id == list.categoria)[0];
+			handleChange(categoriasOption, setCategoria, 'categoria')
+		}
+		//submercados
+		let submercadoOption
+		if(list && list.submercado){
+			submercadoOption = subMercado.filter(element => element.id == list.submercado)[0];
+			handleChange(submercadoOption, setSubmercado, 'submercado')
 		}
 	}, [list])
 
@@ -489,7 +523,7 @@ const FormClient = ({
 						<InputLabel
 							label={numParcelaAtivoLabel}
 							{...numParcelaAtivoInputProps}
-							innerRef={register}						/>
+							innerRef={register} />
 					</Col>
 					<Col xl={3} lg={12} md={12}>
 						<InputLabel
@@ -519,8 +553,8 @@ const FormClient = ({
 							label={categoriaLabel}
 							{...categoriaInputProps}
 							options={categoriaClient}
-						//value={geraPonta.selectedOption}
-						//onChange={target => handleChange(target, setgeraPonta, 'gera_ponta')}
+							value={categoria.selectedOption}
+							onChange={target => handleChange(target, setCategoria, 'categoria')}
 						/>
 					</Col>
 					<Col xl={4} lg={12} md={12}>
@@ -528,8 +562,8 @@ const FormClient = ({
 							label={subMercadoLabel}
 							{...subMercadoInputProps}
 							options={subMercado}
-						//value={geraPonta.selectedOption}
-						//onChange={target => handleChange(target, setgeraPonta, 'gera_ponta')}
+							value={submercado.selectedOption}
+							onChange={target => handleChange(target, setSubmercado, 'submercado')}
 						/>
 					</Col>
 				</Row>
