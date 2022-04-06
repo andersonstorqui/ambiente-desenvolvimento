@@ -118,7 +118,7 @@ const FormClient = ({
 	//VARS
 	const [active, setActive] = useState({ selectedOption: {} });
 	const [group, setGroup] = useState({ selectedOption: {} });
-	const [segmentValue, setSegment] = useState({ selectedOption: list ? { id: list.operating_seg, name: 'teste' } : {} });
+	const [segmentValue, setSegment] = useState({ selectedOption: {} });
 	const [distValue, setDist] = useState({ selectedOption: {} });
 	const [states, setStates] = useState({ selectedOption: {} });
 	const [aproCred, setAproCred] = useState({ selectedOption: {} });
@@ -128,14 +128,18 @@ const FormClient = ({
 	const [geradorPonta, setGeradorPonta] = useState({ selectedOption: {} });
 	const [sazonal, setSazanol] = useState({ selectedOption: {} });
 	const [rural, setRural] = useState({ selectedOption: {} });
-	const [categoria, setCategoria] = useState({selectedOption: {}})
-	const [submercado, setSubmercado] = useState({selectedOption: {}})
+	const [categoria, setCategoria] = useState({ selectedOption: {} })
+	const [submercado, setSubmercado] = useState({ selectedOption: {} })
+	const [userCli, setUser] = useState({ selectedOption: {} })
+
 	React.useEffect(() => {
 		//estado
 		let stateOption
 		if (list && list.state) {
-			stateOption = state.filter(element => element.id == list.state)[0]
-			handleChange(stateOption, setStates, 'state')
+			if (state && state.length > 0) {
+				stateOption = state.filter(element => element.id == list.state)[0]
+				handleChange(stateOption, setStates, 'state')
+			}
 		}
 		//status
 		let status
@@ -146,6 +150,12 @@ const FormClient = ({
 		} else {
 			status = { id: false, name: 'Inativo' }
 			handleChange(status, setActive, 'active')
+		}
+		//segment
+		let segmentOption
+		if (list && list.operating_seg) {
+			segmentOption = { id: list.operating_seg, name: list.segment_name }
+			handleChange(segmentOption, setSegment, 'segment')
 		}
 		//aproveita crédito
 		let apro_cred
@@ -185,7 +195,7 @@ const FormClient = ({
 		let sazonal
 		if (list && list.sazonal) {
 			sazonal = { id: list.sazonal, name: list.sazonal && 'Sim' || 'Não' }
-			handleChange(sazonal, setSazanol, 'sazanal')
+			handleChange(sazonal, setSazanol, 'sazonal')
 		}
 		//rural
 		let rural
@@ -201,25 +211,19 @@ const FormClient = ({
 		}
 		//dist
 		let distOption
-		if(list && list.dist){
-			distOption = {id: list.dist, name: list.dist_name}
+		if (list && list.dist) {
+			distOption = { id: list.dist, name: list.dist_name }
 			handleChange(distOption, setDist, 'dist')
-		}
-		//
-		let segmentOption
-		if(list && list.operating_seg){
-			segmentOption = {id: list.operating_seg, name: list.segment_name}
-			handleChange(segmentOption, setSegment, 'segment')
 		}
 		//categorias
 		let categoriasOption
-		if(list && list.categoria){
+		if (list && list.categoria) {
 			categoriasOption = categoriaClient.filter(element => element.id == list.categoria)[0];
 			handleChange(categoriasOption, setCategoria, 'categoria')
 		}
 		//submercados
 		let submercadoOption
-		if(list && list.submercado){
+		if (list && list.submercado) {
 			submercadoOption = subMercado.filter(element => element.id == list.submercado)[0];
 			handleChange(submercadoOption, setSubmercado, 'submercado')
 		}
@@ -227,6 +231,20 @@ const FormClient = ({
 
 	React.useEffect(() => {
 		register({ name: 'active' });
+		register({ name: 'group' });
+		register({ name: 'segment' });
+		register({ name: 'user' });
+		register({ name: 'dist' });
+		register({ name: 'state' });
+		register({ name: 'apro_cred' });
+		register({ name: 'monitoring' });
+		register({ name: 'status_monitoring' });
+		register({ name: 'gerador_ponta' });
+		register({ name: 'rural' });
+		register({ name: 'sazonal' });
+		register({ name: 'categoria' });
+		register({ name: 'submercado' });
+		register({ name: 'tarife' });
 	}, [register]);
 
 	return (
@@ -281,8 +299,8 @@ const FormClient = ({
 							label={respLabel}
 							{...respInputProps}
 							options={user}
-							value={active.selectedOption}
-							onChange={handleChange}
+							value={userCli.selectedOption}
+							onChange={target => handleChange(target, setUser, 'user')}
 						/>
 					</Col>
 					<Col xl={3} lg={12} md={12}>
@@ -348,7 +366,7 @@ const FormClient = ({
 						<SelectLabel
 							label={aproveitaLabel}
 							{...aproveitaInputProps}
-							options={[{ id: 1, name: 'Sim' }, { id: 2, name: 'Não' }]}
+							options={[{ id: true, name: 'Sim' }, { id: false, name: 'Não' }]}
 							value={aproCred.selectedOption}
 							onChange={target => handleChange(target, setAproCred, 'apro_cred')}
 						/>
@@ -437,7 +455,7 @@ const FormClient = ({
 						<SelectLabel
 							label={geraPontLabel}
 							{...geraPontInputProps}
-							options={[{ id: 1, name: 'Sim' }, { id: 2, name: 'Não' }]}
+							options={[{ id: true, name: 'Sim' }, { id: false, name: 'Não' }]}
 							value={geradorPonta.selectedOption}
 							onChange={target => handleChange(target, setGeradorPonta, 'gerador_ponta')}
 						/>
@@ -455,16 +473,16 @@ const FormClient = ({
 						<SelectLabel
 							label={sazonalLabel}
 							{...sazonalInputProps}
-							options={[{ id: 1, name: 'Sim' }, { id: 2, name: 'Não' }]}
+							options={[{ id: true, name: 'Sim' }, { id: false, name: 'Não' }]}
 							value={sazonal.selectedOption}
-							onChange={target => handleChange(target, setSazanol, 'sazanal')}
+							onChange={target => handleChange(target, setSazanol, 'sazonal')}
 						/>
 					</Col>
 					<Col xl={3} lg={12} md={12}>
 						<SelectLabel
 							label={ruralLabel}
 							{...ruralInputProps}
-							options={[{ id: 1, name: 'Sim' }, { id: 2, name: 'Não' }]}
+							options={[{ id: true, name: 'Sim' }, { id: false, name: 'Não' }]}
 							value={rural.selectedOption}
 							onChange={target => handleChange(target, setRural, 'rural')}
 						/>
@@ -652,134 +670,132 @@ FormClient.defaultProps = {
 		name: 'client',
 		id: 'client',
 		placeholder: 'cliente',
-		required: true,
+
 	},
 	groupLabel: 'Grupo',
 	groupInputProps: {
 		name: 'group',
 		id: 'group',
 		placeholder: 'Grupo',
-		required: true,
+
 	},
 	corporateLabel: 'Razão social',
 	corporateInputProps: {
 		name: 'corporate',
 		id: 'corporate',
 		placeholder: 'Razão social',
-		required: true,
+
 	},
 	segmentLabel: 'Segmento de atuação',
 	segmentInputProps: {
-		name: 'segment',
-		id: 'segment',
 		placeholder: 'Segmento de atuação',
-		required: true,
+
 	},
 	respLabel: 'Responsável comercial',
 	respInputProps: {
 		name: 'resp',
 		id: 'resp',
 		placeholder: 'Responsável comercial',
-		required: true,
+
 	},
 	distLabel: 'Distribuidora',
 	distInputProps: {
 		name: 'dist',
 		id: 'dist',
 		placeholder: 'Distribuidora',
-		required: true,
+
 	},
 	unidadeCLabel: 'Unidade Consumidora',
 	unidadeCInputProps: {
 		name: 'unid_consumer',
 		id: 'unid_consumer',
 		placeholder: 'Unidade Consumidora',
-		required: true,
+
 	},
 	countryLabel: 'País',
 	countryInputProps: {
 		name: 'country',
 		id: 'country',
 		placeholder: 'País',
-		required: true,
+
 	},
 	stateLabel: 'Estado',
 	stateInputProps: {
 		name: 'state',
 		id: 'state',
 		placeholder: 'Estado',
-		required: true,
+
 	},
 	cityLabel: 'Cidade',
 	cityInputProps: {
 		name: 'city',
 		id: 'city',
 		placeholder: 'Cidade',
-		required: true,
+
 	},
 	incricaoLabel: 'Inscrição municipal',
 	incricaoInputProps: {
 		name: 'subscriptionstate',
 		id: 'subscriptionstate',
 		placeholder: 'Inscrição municipal',
-		required: true,
+
 	},
 	ICMSLabel: 'Alíquota ICMS',
 	ICMSInputProps: {
 		name: 'ICMS',
 		id: 'ICMS',
 		placeholder: 'Alíquota ICMS',
-		required: true,
+
 	},
 	CNPJLabel: 'CNPJ',
 	CNPJInputProps: {
 		name: 'cnpj',
 		id: 'cnpj',
 		placeholder: 'CNPJ',
-		required: true,
+
 	},
 	aproveitaLabel: 'Aproveita crédito',
 	aproveitaInputProps: {
 		name: 'aproveita',
 		id: 'aproveita',
 		placeholder: 'Aproveita crédito',
-		required: true,
+
 	},
 	percenLaudoLabel: 'Percentual Laudo',
 	percenLaudoInputProps: {
 		name: 'perc_laudo',
 		id: 'perc_laudo',
 		placeholder: 'Percentual Laudo',
-		required: true,
+
 	},
 	periodlastLaudoLabel: 'Data ultimo laudo',
 	periodlastLaudoInputProps: {
 		name: 'periodlastLaudo',
 		id: 'periodlastLaudo',
-		required: true,
+
 	},
 	periodMigrationLabel: 'Data Migração',
 	periodMigrationInputProps: {
 		name: 'periodMigration',
 		id: 'periodMigration',
-		required: true,
+
 	},
 	monitoramentoLabel: 'Monitoramento',
 	monitoramentoInputProps: {
 		name: 'monitoring',
-		required: true,
+
 		id: 'monitoring',
 	},
 	statusMonitoramentoLabel: 'Status Monitoramento',
 	statusMonitoramentoInputProps: {
 		name: 'status_monitoring',
-		required: true,
+
 		id: 'status_monitoring',
 	},
 	currentAccountLabel: 'Status Monitoramento',
 	currentAccountInputProps: {
 		name: 'current_account',
-		required: true,
+
 		id: 'current_account',
 		placeholder: 'Status Monitoramento',
 
@@ -788,56 +804,55 @@ FormClient.defaultProps = {
 	subGroupInputProps: {
 		name: 'subgroup',
 		id: 'subgroup',
-		required: true,
+
 		placeholder: 'Subgroupo',
 	},
 	tarifeLabel: 'Tarifa',
 	tarifeInputProps: {
 		name: 'tarife',
 		id: 'tarife',
-		required: true,
+
 		placeholder: 'Tarifa',
 	},
 	potenceTRLabel: 'Potencial Total TR',
 	potenceTRInputProps: {
 		name: 'potence_tot_tr',
 		id: 'potence_tot_tr',
-		required: true,
+
 		placeholder: 'Potencial Total TR',
 	},
 	geraPontLabel: 'Gerador de Ponta',
 	geraPontInputProps: {
 		name: 'gera_ponta',
 		id: 'gera_ponta',
-		required: true,
+
 		placeholder: 'Gerador de Ponta',
 	},
 	potenceGeraLabel: 'Potencia Gerada',
 	potenceGeraInputProps: {
 		name: 'potence_gerada',
 		id: 'potence_gerada',
-		required: true,
+
 		placeholder: 'potencia gerada',
 	},
 	sazonalLabel: 'Sazonal',
 	sazonalInputProps: {
 		name: 'sazona',
 		id: 'sazona',
-		required: true,
+
 		placeholder: 'Sazonal',
 	},
 	ruralLabel: 'Rural',
 	ruralInputProps: {
 		name: 'rural',
 		id: 'rural',
-		required: true,
+
 		placeholder: 'Rural',
 	},
 	bancosLabel: 'Bancos',
 	bancosInputProps: {
 		name: 'banco',
 		id: 'banco',
-		required: true,
 		placeholder: 'Bancos',
 	},
 
@@ -845,21 +860,21 @@ FormClient.defaultProps = {
 	agenciaInputProps: {
 		name: 'agencia_operacao_ccee',
 		id: 'agencia_operacao_ccee',
-		required: true,
+
 		placeholder: 'Agencia',
 	},
 	contaLabel: 'Conta',
 	contaInputProps: {
 		name: 'conta_operacao_ccee',
 		id: 'conta_operacao_ccee',
-		required: true,
+
 		placeholder: 'Conta',
 	},
 	agenteLabel: 'Agente CCEE',
 	agenteInputProps: {
 		name: 'agente_ccee',
 		id: 'agente_ccee',
-		required: true,
+
 		placeholder: 'Agente CCEE',
 	},
 
@@ -867,14 +882,14 @@ FormClient.defaultProps = {
 	perfilInputProps: {
 		name: 'perfil_ccee',
 		id: 'perfil_ccee',
-		required: true,
+
 		placeholder: 'Perfil CCEE',
 	},
 	cliqLabel: 'Cliq CCEE',
 	cliqInputProps: {
 		name: 'cliq_ccee',
 		id: 'cliq_ccee',
-		required: true,
+
 		placeholder: 'Cliq CCEE',
 	},
 
@@ -882,14 +897,14 @@ FormClient.defaultProps = {
 	numParcelaAtivoInputProps: {
 		name: 'num_parcela_ativo',
 		id: 'num_parcela_ativo',
-		required: true,
+
 		placeholder: 'Numero parcela ativo',
 	},
 	parcelaAtivLabel: 'Parcela ativo',
 	parcelaAtivInputProps: {
 		name: 'parcela_ativo',
 		id: 'parcela_ativo',
-		required: true,
+
 		placeholder: 'Parcela ativo',
 	},
 
@@ -897,28 +912,28 @@ FormClient.defaultProps = {
 	pontoMedicaoInputProps: {
 		name: 'ponto_medicao',
 		id: 'ponto_medicao',
-		required: true,
+
 		placeholder: 'Ponto Medicao',
 	},
 	nomeMedicaoLabel: 'Nome Medicao',
 	nomeMedicaoInputProps: {
 		name: 'nomeMedicao',
 		id: 'nomeMedicao',
-		required: true,
+
 		placeholder: 'Nome Medicao',
 	},
 	categoriaLabel: 'Categoria',
 	categoriaInputProps: {
 		name: 'categoria',
 		id: 'categoria',
-		required: true,
+
 		placeholder: 'Categoria',
 	},
 	subMercadoLabel: 'SubMercado',
 	subMercadoInputProps: {
 		name: 'subMercado',
 		id: 'subMercado',
-		required: true,
+
 		placeholder: 'SubMercado',
 	},
 	activeLabel: 'Ativo',

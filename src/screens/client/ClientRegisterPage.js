@@ -48,7 +48,7 @@ class ClientRegisterPage extends React.Component {
 		await onGetListUsers();
 		await onGetStates();
 		if (id) {
-			await onGetClient(id);
+			await onGetClient({id: id});
 		}
 	}
 
