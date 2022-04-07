@@ -154,8 +154,8 @@ const FormClient = ({
 		//segment
 		let segmentOption
 		if (list && list.operating_seg) {
-			segmentOption = { id: list.operating_seg, name: list.segment_name }
-			handleChange(segmentOption, setSegment, 'segment')
+			segmentOption = { id: 'list.operating_seg', name: list.segment_name }
+			handleChange(segmentOption, setSegment, 'operating_seg')
 		}
 		//aproveita crédito
 		let apro_cred
@@ -232,7 +232,7 @@ const FormClient = ({
 	React.useEffect(() => {
 		register({ name: 'active' });
 		register({ name: 'group' });
-		register({ name: 'segment' });
+		register({ name: 'operating_seg' });
 		register({ name: 'user' });
 		register({ name: 'dist' });
 		register({ name: 'state' });
@@ -291,7 +291,7 @@ const FormClient = ({
 							{...segmentInputProps}
 							options={segment}
 							value={segmentValue.selectedOption}
-							onChange={target => handleChange(target, setSegment, 'segment')}
+							onChange={target => handleChange(target, setSegment, 'operating_seg')}
 						/>
 					</Col>
 					<Col xl={3} lg={12} md={12}>
