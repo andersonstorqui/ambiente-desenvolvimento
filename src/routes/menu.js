@@ -1,5 +1,6 @@
-import { MdBuild, MdDashboard, MdApps, MdOutlinePersonPinCircle, MdBusiness, MdSegment, MdOutlineVerticalDistribute } from 'react-icons/md';
-import { FaUserAlt } from 'react-icons/fa';
+import { MdBuild, MdDashboard, MdApps, MdOutlinePersonPinCircle, MdBusiness, MdSegment, MdOutlineVerticalDistribute, MdViewModule } from 'react-icons/md';
+import { FaUserAlt, FaSuitcase } from 'react-icons/fa';
+import { BsFillLightningChargeFill } from 'react-icons/bs'
 export const navItems = [
 	{
 		to: '/',
@@ -48,6 +49,27 @@ export const navApp = [
 		exact: false,
 		IconSub: MdOutlineVerticalDistribute,
 		id: 144
+	},
+	{
+		to: '/merchant',
+		name: 'Comercializador de energia',
+		exact: false,
+		IconSub: FaSuitcase,
+		id: 145
+	},
+	{
+		to: '/modulation',
+		name: 'Modulação',
+		exact: false,
+		IconSub: MdViewModule,
+		id: 146
+	},
+	{
+		to: '/energy-types',
+		name: 'Tipos de energia',
+		exact: false,
+		IconSub: BsFillLightningChargeFill,
+		id: 147
 	}
 ]
 

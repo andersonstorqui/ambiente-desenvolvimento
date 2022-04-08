@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Form from '../../components/dist/DistRegisterForm';
+import Form from '../../components/MerchantEnergy/MerchantEnergyRegisterForm';
 import { navigateBack } from '../../lib/utils/navigation';
 import {
 	notificationActions,
-	distActions,
+	merchantEnergyActions,
 } from '../../store/actions';
 import { LoadingContent, Page } from '../../components/Utils/Page';
 import PropTypes from '../../lib/utils/propTypes';
 
-class DistRegisterPage extends React.Component {
+class MerchantEnergyRegisterPage extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -22,7 +22,7 @@ class DistRegisterPage extends React.Component {
 
 	async componentDidMount() {
 		const {
-			onGetDist,
+			onGetList,
 			match,
 		} = this.props;
 
@@ -33,18 +33,18 @@ class DistRegisterPage extends React.Component {
 		});
 
 		if (id) {
-			await onGetDist({id: id});
+			await onGetList({id: id});
 		}
 	}
 
 	onSubmit = data => {
-		const { onAddDist, onEditDist } = this.props;
+		const { onAddMerchant, onEditMerchant } = this.props;
 		const { id } = this.state;
 
 		if (id) {
-			onEditDist(data, id);
+			onEditMerchant(data, id);
 		} else {
-			onAddDist(data);
+			onAddMerchant(data);
 		}
 	};
 
@@ -52,7 +52,7 @@ class DistRegisterPage extends React.Component {
 		const { id } = this.state;
 
 		const {
-			dist,
+			merchant,
 			loading,
 		} = this.props;
 
@@ -60,17 +60,17 @@ class DistRegisterPage extends React.Component {
 			<Page
 				className="user-register"
 				title={id ? 'Editar' : 'Adicionar'}
-				parentBreadcrumbs="Distribuidora"
-				pathParent="/Distribuidora"
+				parentBreadcrumbs="Comercializador de energia"
+				pathParent="/Comercializador de energia"
 				breadcrumbs={[
 					{
-						name: id ? 'Editar Distribuidora' : 'Adicionar Distribuidora',
+						name: id ? 'Editar Comercializador de energia' : 'Adicionar Comercializador de energia',
 						active: true,
 					},
 				]}>
-				<LoadingContent loading={id ? !dist : loading}>
+				<LoadingContent loading={id ? !merchant : loading}>
 					<Form
-						list={dist[0]}
+						list={merchant[0]}
 						onSubmit={data => this.onSubmit(data)}
 						handleNavigation={() => navigateBack()}
 					/>
@@ -83,29 +83,29 @@ class DistRegisterPage extends React.Component {
 const mapStateToProps = state => {
 	return {
 		loading: state.api.loading,
-		dist: state.dist.list,
+		merchant: state.merchant.list,
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onGetDist: id => dispatch(distActions.getDist(id)),
+		onGetList: id => dispatch(merchantEnergyActions.getMerchantEnergy(id)),
 		onAddNotification: (message, level) =>
 			dispatch(notificationActions.addNotification(message, level)),
-		onAddDist: data => dispatch(distActions.insertDist(data)),
-		onEditDist: (data, id) => dispatch(distActions.updateDist(data, id)),
+		onAddMerchant: data => dispatch(merchantEnergyActions.insertMerchantEnergy(data)),
+		onEditMerchant: (data, id) => dispatch(merchantEnergyActions.updateMerchantEnergy(data, id)),
 	};
 };
 
-DistRegisterPage.propTypes = {
+MerchantEnergyRegisterPage.propTypes = {
 	onAddNotification: PropTypes.func.isRequired,
-	onAddGroup: PropTypes.func.isRequired,
-	onEditGroup: PropTypes.func.isRequired,
-	onGetBusiness: PropTypes.func.isRequired,
+	onAddMerchant: PropTypes.func.isRequired,
+	onEditMerchant: PropTypes.func.isRequired,
+	onGetList: PropTypes.func.isRequired,
 	loading: PropTypes.bool.isRequired,
 	match: PropTypes.shape({
 		params: PropTypes.shape({ id: PropTypes.string }),
 	}).isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DistRegisterPage);
+export default connect(mapStateToProps, mapDispatchToProps)(MerchantEnergyRegisterPage);

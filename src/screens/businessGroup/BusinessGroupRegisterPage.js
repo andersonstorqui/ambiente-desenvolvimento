@@ -34,7 +34,7 @@ class BusinessGroupRegisterPage extends React.Component {
 		});
 
 		if (id) {
-			await onGetBusiness(id);
+			await onGetBusiness({id: id});
 		}
 	}
 

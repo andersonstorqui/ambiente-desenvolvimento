@@ -1,5 +1,5 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
-import * as clientApi from '../../../api/appApi/Client';
+import * as modulationApi from '../../../api/appApi/modulation';
 import { notificationActions } from '../notification';
 import * as actions from './actions';
 import { apiActions, apiSelectors } from '../api';
@@ -7,9 +7,7 @@ import * as types from './types';
 import * as selectors from './selectors';
 import { navigate } from '../../../lib/utils/navigation';
 
-
-
-export function* getClient(payload) {
+export function* getModulation(payload) {
 	const refresh = yield select(selectors.getRefresh);
 
 	if (!refresh) {
@@ -19,14 +17,15 @@ export function* getClient(payload) {
 	let { query } = payload;
 
 	yield put(apiActions.setQueryFilter(query));
-	try {
-		const response = yield call(clientApi.getClient, query);
 
-		yield put(actions.setClient(response.data.data));
+	try {
+		const response = yield call(modulationApi.getModulation, query);
+
+		yield put(actions.setModulation(response.data.data));
 	} catch (error) {
 		yield put(
 			notificationActions.addNotification(
-				'Erro ao buscar Cliente.',
+				'Erro ao buscar Modulação.',
 				'error',
 			),
 		);
@@ -36,28 +35,28 @@ export function* getClient(payload) {
 	yield put(actions.setRefresh(false));
 }
 
-export function* addClient(payload) {
+export function* addModulation(payload) {
 	yield put(apiActions.apiSubmitStart());
 
-	const data = payload.client;
+	const data = payload.modulation;
 
 	try {
-		const response = yield call(clientApi.insertClient, data);
+		const response = yield call(modulationApi.insertModulation, data);
 		if (response.status) {
 			yield put(
 				notificationActions.addNotification(
-					'Cliente adicionado com sucesso!',
+					'Modulação cadastrado com sucesso!',
 					'success',
 				),
 			);
 			setTimeout(() => {
-				navigate('/client');
+				navigate('/modulation');
 			}, 1200);
 		}
 	} catch (error) {
 		yield put(
 			notificationActions.addNotification(
-				'Erro ao cadastrar Cliente.',
+				'Erro ao cadastrar modulação.',
 				'error',
 			),
 		);
@@ -66,57 +65,57 @@ export function* addClient(payload) {
 	yield put(apiActions.apiSubmitEnd());
 }
 
-export function* activeDesactiveClient(payload) {
-	const { client } = payload;
+export function* activeDesactiveModulation(payload) {
+	const { modulation } = payload;
 	try {
 		const data = {
-			active: !client.active,
-			id: client.id,
-			client: client.client
+			active: !modulation.active,
+			id: modulation.id,
+			modulation: modulation.modulation
 		};
 
-		const response = yield call(clientApi.updateClient, data);
+		const response = yield call(modulationApi.updateModulation, data);
 
 		if (response) {
 			const query = yield select(apiSelectors.getQuery);
 
 			yield put(actions.setRefresh(true));
 
-			yield put(actions.getClient(query));
+			yield put(actions.getModulation(query));
 		}
 	} catch (error) {
 		yield put(
 			notificationActions.addNotification(
-				'Erro ao mudar status do Cliente.',
+				'Erro ao mudar status da Modulação.',
 				'error',
 			),
 		);
 	}
 }
 
-export function* editClient(payload) {
+export function* editModulation(payload) {
 	yield put(apiActions.apiSubmitStart());
 
 	const data = payload.query;
 	const { id } = payload;
 	data.id = id;
 	try {
-		const response = yield call(clientApi.updateClient, data, id);
+		const response = yield call(modulationApi.updateModulation, data, id);
 		if (response.status) {
 			yield put(
 				notificationActions.addNotification(
-					'Cliente editado com sucesso!',
+					'Modulação editado com sucesso!',
 					'success',
 				),
 			);
 			setTimeout(() => {
-				navigate('/client');
+				navigate('/modulation');
 			}, 1200);
 		}
 	} catch (error) {
 		yield put(
 			notificationActions.addNotification(
-				'Erro ao editar cliente.',
+				'Erro ao editar Modulação.',
 				'error',
 			),
 		);
@@ -125,29 +124,29 @@ export function* editClient(payload) {
 	yield put(apiActions.apiSubmitEnd());
 }
 
-export function* deleteClient(payload) {
+export function* deleteModulation(payload) {
 	yield put(apiActions.apiStart());
 
-	const id = payload.client;
+	const id = payload.modulation;
 
 	try {
-		const response = yield call(clientApi.deleteClient, { id: id });
+		const response = yield call(modulationApi.deleteModulation, { id: id });
 
 		if (response.status) {
 			yield put(
 				notificationActions.addNotification(
-					'Cliente deletado com sucesso!',
+					'Modulação deletado com sucesso!',
 					'success',
 				),
 			);
 			yield put(apiActions.toogleModal());
 			const query = yield select(apiSelectors.getQuery);
-			yield put(actions.getClient(query));
+			yield put(actions.getModulation(query));
 		}
 	} catch (error) {
 		yield put(
 			notificationActions.addNotification(
-				'Erro ao deletar Cliente.',
+				'Erro ao deletar Modulação.',
 				'error',
 			),
 		);
@@ -157,10 +156,10 @@ export function* deleteClient(payload) {
 }
 
 
-export default function* watchClient() {
-	yield takeLatest(types.GET_CLIENT, getClient);
-	yield takeLatest(types.INSERT_CLIENT, addClient);
-	yield takeLatest(types.ACTIVEDESACTIVE_CLIENT, activeDesactiveClient);
-	yield takeLatest(types.UPDATE_CLIENT, editClient);
-	yield takeLatest(types.DELETE_CLIENT, deleteClient);
+export default function* watchModulation() {
+	yield takeLatest(types.GET_MODULATION, getModulation);
+	yield takeLatest(types.INSERT_MODULATION, addModulation);
+	yield takeLatest(types.ACTIVEORDESACTIVE_MODULATION, activeDesactiveModulation);
+	yield takeLatest(types.UPDATE_MODULATION, editModulation);
+	yield takeLatest(types.DELETE_MODULATION, deleteModulation);
 }

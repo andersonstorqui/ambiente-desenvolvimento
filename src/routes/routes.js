@@ -29,6 +29,14 @@ const DistRegisterPage = React.lazy(() => import('screens/dist/DistRegisterPage'
 const ClientPage = React.lazy(() => import('screens/client/ClientPage'));
 const ClientRegisterPage = React.lazy(() => import('screens/client/ClientRegisterPage'));
 
+const MerchantEnergyPage = React.lazy(() => import('screens/merchantEnergy/MerchantPage'));
+const MerchantRegisterPage = React.lazy(() => import('screens/merchantEnergy/MerchantRegisterPage'));
+
+const ModulationPage = React.lazy(() => import('screens/modulation/ModulationPage'));
+const ModulationRegisterPage = React.lazy(() => import('screens/modulation/ModulationRegisterPage'));
+
+const EnergyTypePage = React.lazy(() => import('screens/energyType/EnergyTypePage'));
+const EnergyTypeRegisterPage = React.lazy(() => import('screens/energyType/EnergyTypeRegisterPage'));
 
 const User = Authorize(false, ['USER']);
 
@@ -177,7 +185,73 @@ const routes = [
 		permission: true,
 		id: 144,
 	},
-	
+
+	//MERCHANT ROUTES
+	{
+		path: '/merchant',
+		name: 'merchant',
+		component: User(MerchantEnergyPage),
+		permission: true,
+		id: 145,
+	},
+	{
+		path: '/merchant/add',
+		name: 'merchant add',
+		component: User(MerchantRegisterPage),
+		permission: true,
+		id: 145,
+	},
+	{
+		path: '/merchant/editar/:id',
+		name: 'merchant edit',
+		component: User(MerchantRegisterPage),
+		permission: true,
+		id: 145,
+	},
+	//MODULATION ROUTES	
+	{
+		path: '/modulation',
+		name: 'modulation',
+		component: User(ModulationPage),
+		permission: true,
+		id: 146,
+	},
+	{
+		path: '/modulation/add',
+		name: 'modulation add',
+		component: User(ModulationRegisterPage),
+		permission: true,
+		id: 146,
+	},
+	{
+		path: '/modulation/editar/:id',
+		name: 'modulation edit',
+		component: User(ModulationRegisterPage),
+		permission: true,
+		id: 146,
+	},
+	//ENERGY TYPE ROUTES	
+	{
+		path: '/energy-types',
+		name: 'energy-type',
+		component: User(EnergyTypePage),
+		permission: true,
+		id: 147,
+	},
+	{
+		path: '/energy-types/add',
+		name: 'energy-type add',
+		component: User(EnergyTypeRegisterPage),
+		permission: true,
+		id: 147,
+	},
+	{
+		path: '/energy-types/editar/:id',
+		name: 'energy-type edit',
+		component: User(EnergyTypeRegisterPage),
+		permission: true,
+		id: 147,
+	},
 ];
 
 export default routes;

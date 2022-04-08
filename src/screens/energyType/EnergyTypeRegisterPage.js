@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Form from '../../components/dist/DistRegisterForm';
+import Form from '../../components/EnergyTypes/EnergyTypeRegisterForm';
 import { navigateBack } from '../../lib/utils/navigation';
 import {
 	notificationActions,
-	distActions,
+	energyTypeActions,
 } from '../../store/actions';
 import { LoadingContent, Page } from '../../components/Utils/Page';
 import PropTypes from '../../lib/utils/propTypes';
 
-class DistRegisterPage extends React.Component {
+class EnergyTypeRegisterPage extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -22,7 +22,7 @@ class DistRegisterPage extends React.Component {
 
 	async componentDidMount() {
 		const {
-			onGetDist,
+			onGetList,
 			match,
 		} = this.props;
 
@@ -33,18 +33,18 @@ class DistRegisterPage extends React.Component {
 		});
 
 		if (id) {
-			await onGetDist({id: id});
+			await onGetList({id: id});
 		}
 	}
 
 	onSubmit = data => {
-		const { onAddDist, onEditDist } = this.props;
+		const { onAddType, onEditType } = this.props;
 		const { id } = this.state;
 
 		if (id) {
-			onEditDist(data, id);
+			onEditType(data, id);
 		} else {
-			onAddDist(data);
+			onAddType(data);
 		}
 	};
 
@@ -52,7 +52,7 @@ class DistRegisterPage extends React.Component {
 		const { id } = this.state;
 
 		const {
-			dist,
+			types,
 			loading,
 		} = this.props;
 
@@ -60,17 +60,17 @@ class DistRegisterPage extends React.Component {
 			<Page
 				className="user-register"
 				title={id ? 'Editar' : 'Adicionar'}
-				parentBreadcrumbs="Distribuidora"
-				pathParent="/Distribuidora"
+				parentBreadcrumbs="Tipo de energia"
+				pathParent="/Tipo de energia"
 				breadcrumbs={[
 					{
-						name: id ? 'Editar Distribuidora' : 'Adicionar Distribuidora',
+						name: id ? 'Editar Tipo de energia' : 'Adicionar Tipo de energia',
 						active: true,
 					},
 				]}>
-				<LoadingContent loading={id ? !dist : loading}>
+				<LoadingContent loading={id ? !types : loading}>
 					<Form
-						list={dist[0]}
+						list={types[0]}
 						onSubmit={data => this.onSubmit(data)}
 						handleNavigation={() => navigateBack()}
 					/>
@@ -83,29 +83,29 @@ class DistRegisterPage extends React.Component {
 const mapStateToProps = state => {
 	return {
 		loading: state.api.loading,
-		dist: state.dist.list,
+		types: state.energy.list,
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onGetDist: id => dispatch(distActions.getDist(id)),
+		onGetList: id => dispatch(energyTypeActions.getEnergyType(id)),
 		onAddNotification: (message, level) =>
 			dispatch(notificationActions.addNotification(message, level)),
-		onAddDist: data => dispatch(distActions.insertDist(data)),
-		onEditDist: (data, id) => dispatch(distActions.updateDist(data, id)),
+		onAddType: data => dispatch(energyTypeActions.insertEnergyType(data)),
+		onEditType: (data, id) => dispatch(energyTypeActions.updateEnergyType(data, id)),
 	};
 };
 
-DistRegisterPage.propTypes = {
+EnergyTypeRegisterPage.propTypes = {
 	onAddNotification: PropTypes.func.isRequired,
-	onAddGroup: PropTypes.func.isRequired,
-	onEditGroup: PropTypes.func.isRequired,
-	onGetBusiness: PropTypes.func.isRequired,
+	onAddType: PropTypes.func.isRequired,
+	onEditType: PropTypes.func.isRequired,
+	onGetList: PropTypes.func.isRequired,
 	loading: PropTypes.bool.isRequired,
 	match: PropTypes.shape({
 		params: PropTypes.shape({ id: PropTypes.string }),
 	}).isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DistRegisterPage);
+export default connect(mapStateToProps, mapDispatchToProps)(EnergyTypeRegisterPage);

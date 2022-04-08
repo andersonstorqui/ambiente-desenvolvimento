@@ -1,0 +1,22 @@
+export const GET_ENERGY_TYPE = '/energy/GET_ENERGY_TYPE';
+export const SET_ENERGY_TYPE = '/energy/SET_ENERGY_TYPE';
+export const INSERT_ENERGY_TYPE = '/energy/INSERT_ENERGY_TYPE';
+export const DELETE_ENERGY_TYPE = '/energy/DELETE_ENERGY_TYPE';
+export const UPDATE_ENERGY_TYPE = '/energy/UPDATE_ENERGY_TYPE';
+export const SELECT = '/energy/SELECT';
+export const REFRESH = '/energy/REFRESH';
+export const ACTIVEORDESACTIVE_TYPE = '/energy/ACTIVEORDESACTIVE_TYPE';
+export const SET_TYPE_REFRESH = '/energy/SET_TYPE_REFRESH';
+
+
+export default {
+	GET_ENERGY_TYPE,
+	SET_ENERGY_TYPE,
+	INSERT_ENERGY_TYPE,
+	DELETE_ENERGY_TYPE,
+	UPDATE_ENERGY_TYPE,
+	SELECT,
+	REFRESH,
+	ACTIVEORDESACTIVE_TYPE,
+	SET_TYPE_REFRESH
+}

@@ -1,5 +1,5 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
-import * as clientApi from '../../../api/appApi/Client';
+import * as energyTypeApi from '../../../api/appApi/energyType';
 import { notificationActions } from '../notification';
 import * as actions from './actions';
 import { apiActions, apiSelectors } from '../api';
@@ -7,9 +7,7 @@ import * as types from './types';
 import * as selectors from './selectors';
 import { navigate } from '../../../lib/utils/navigation';
 
-
-
-export function* getClient(payload) {
+export function* getEnergyTYpe(payload) {
 	const refresh = yield select(selectors.getRefresh);
 
 	if (!refresh) {
@@ -19,14 +17,16 @@ export function* getClient(payload) {
 	let { query } = payload;
 
 	yield put(apiActions.setQueryFilter(query));
-	try {
-		const response = yield call(clientApi.getClient, query);
 
-		yield put(actions.setClient(response.data.data));
+	try {
+		const response = yield call(energyTypeApi.getEnergyType, query);
+
+		yield put(actions.setEnergyType(response.data.data));
 	} catch (error) {
+		console.log(error)
 		yield put(
 			notificationActions.addNotification(
-				'Erro ao buscar Cliente.',
+				'Erro ao buscar Tipos de energia.',
 				'error',
 			),
 		);
@@ -36,28 +36,28 @@ export function* getClient(payload) {
 	yield put(actions.setRefresh(false));
 }
 
-export function* addClient(payload) {
+export function* addEnergyType(payload) {
 	yield put(apiActions.apiSubmitStart());
 
-	const data = payload.client;
+	const data = payload.types;
 
 	try {
-		const response = yield call(clientApi.insertClient, data);
+		const response = yield call(energyTypeApi.insertEnergyType, data);
 		if (response.status) {
 			yield put(
 				notificationActions.addNotification(
-					'Cliente adicionado com sucesso!',
+					'Tipo de energia cadastrado com sucesso!',
 					'success',
 				),
 			);
 			setTimeout(() => {
-				navigate('/client');
+				navigate('/energy-types');
 			}, 1200);
 		}
 	} catch (error) {
 		yield put(
 			notificationActions.addNotification(
-				'Erro ao cadastrar Cliente.',
+				'Erro ao cadastrar Tipo de energia.',
 				'error',
 			),
 		);
@@ -66,57 +66,57 @@ export function* addClient(payload) {
 	yield put(apiActions.apiSubmitEnd());
 }
 
-export function* activeDesactiveClient(payload) {
-	const { client } = payload;
+export function* activeDesactiveType(payload) {
+	const { types } = payload;
 	try {
 		const data = {
-			active: !client.active,
-			id: client.id,
-			client: client.client
+			active: !types.active,
+			id: types.id,
+			type: types.type
 		};
 
-		const response = yield call(clientApi.updateClient, data);
+		const response = yield call(energyTypeApi.updateEnergyType, data);
 
 		if (response) {
 			const query = yield select(apiSelectors.getQuery);
 
 			yield put(actions.setRefresh(true));
 
-			yield put(actions.getClient(query));
+			yield put(actions.getEnergyType(query));
 		}
 	} catch (error) {
 		yield put(
 			notificationActions.addNotification(
-				'Erro ao mudar status do Cliente.',
+				'Erro ao mudar status do tipo de energia.',
 				'error',
 			),
 		);
 	}
 }
 
-export function* editClient(payload) {
+export function* editEnergyType(payload) {
 	yield put(apiActions.apiSubmitStart());
 
 	const data = payload.query;
 	const { id } = payload;
 	data.id = id;
 	try {
-		const response = yield call(clientApi.updateClient, data, id);
+		const response = yield call(energyTypeApi.updateEnergyType, data, id);
 		if (response.status) {
 			yield put(
 				notificationActions.addNotification(
-					'Cliente editado com sucesso!',
+					'Tipo de energia editado com sucesso!',
 					'success',
 				),
 			);
 			setTimeout(() => {
-				navigate('/client');
+				navigate('/energy-types');
 			}, 1200);
 		}
 	} catch (error) {
 		yield put(
 			notificationActions.addNotification(
-				'Erro ao editar cliente.',
+				'Erro ao editar Tipos de energia.',
 				'error',
 			),
 		);
@@ -125,29 +125,29 @@ export function* editClient(payload) {
 	yield put(apiActions.apiSubmitEnd());
 }
 
-export function* deleteClient(payload) {
+export function* deleteEnergyTypes(payload) {
 	yield put(apiActions.apiStart());
 
-	const id = payload.client;
+	const id = payload.types;
 
 	try {
-		const response = yield call(clientApi.deleteClient, { id: id });
+		const response = yield call(energyTypeApi.deleteEnergyType, { id: id });
 
 		if (response.status) {
 			yield put(
 				notificationActions.addNotification(
-					'Cliente deletado com sucesso!',
+					'Tipo de energia deletado com sucesso!',
 					'success',
 				),
 			);
 			yield put(apiActions.toogleModal());
 			const query = yield select(apiSelectors.getQuery);
-			yield put(actions.getClient(query));
+			yield put(actions.getEnergyType(query));
 		}
 	} catch (error) {
 		yield put(
 			notificationActions.addNotification(
-				'Erro ao deletar Cliente.',
+				'Erro ao deletar Tipo de energia.',
 				'error',
 			),
 		);
@@ -157,10 +157,10 @@ export function* deleteClient(payload) {
 }
 
 
-export default function* watchClient() {
-	yield takeLatest(types.GET_CLIENT, getClient);
-	yield takeLatest(types.INSERT_CLIENT, addClient);
-	yield takeLatest(types.ACTIVEDESACTIVE_CLIENT, activeDesactiveClient);
-	yield takeLatest(types.UPDATE_CLIENT, editClient);
-	yield takeLatest(types.DELETE_CLIENT, deleteClient);
+export default function* watchEnergyTypes() {
+	yield takeLatest(types.GET_ENERGY_TYPE, getEnergyTYpe);
+	yield takeLatest(types.INSERT_ENERGY_TYPE, addEnergyType);
+	yield takeLatest(types.ACTIVEORDESACTIVE_TYPE, activeDesactiveType);
+	yield takeLatest(types.UPDATE_ENERGY_TYPE, editEnergyType);
+	yield takeLatest(types.DELETE_ENERGY_TYPE, deleteEnergyTypes);
 }

@@ -33,7 +33,7 @@ class OperationSegRegisterPage extends React.Component {
 		});
 
 		if (id) {
-			await onGetList(id);
+			await onGetList({id: id});
 		}
 	}
 

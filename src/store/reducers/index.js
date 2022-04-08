@@ -10,6 +10,9 @@ import businessGroupReducer from '../ducks/businessGroup';
 import operationSegReducer from '../ducks/operationSeg';
 import distReducer from '../ducks/dist';
 import clientReducer from '../ducks/client';
+import merchantEnergyReducer from '../ducks/merchantEnergy';	
+import modulationReducer from '../ducks/modulation';
+import energyTypeReducer from '../ducks/energyType';
 
 const rootReducer = combineReducers({
 	auth: authReducer,
@@ -22,7 +25,10 @@ const rootReducer = combineReducers({
 	business: businessGroupReducer,
 	segment: operationSegReducer,
 	dist: distReducer,
-	client: clientReducer
+	client: clientReducer,
+	merchant: merchantEnergyReducer,
+	modulation: modulationReducer,
+	energy: energyTypeReducer
 });
 
 export default rootReducer;

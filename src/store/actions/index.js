@@ -9,3 +9,6 @@ export { businessGroupActions } from '../ducks/businessGroup';
 export { operationSegActions } from '../ducks/operationSeg';
 export { distActions } from '../ducks/dist';
 export { clientActions } from '../ducks/client';
+export { merchantEnergyActions } from '../ducks/merchantEnergy';
+export { modulationActions } from '../ducks/modulation';
+export { energyTypeActions } from '../ducks/energyType';
