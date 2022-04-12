@@ -52,7 +52,7 @@ class BusinessGroupList extends React.Component {
 					position={{ bottom: 15, right: 0 }}
 					event="click"
 					icon={<MdAdd />}
-					onClick={() => handleNavigation('/operation-segment/add')}
+					onClick={() => handleNavigation('/business-group/add')}
 					text="Adicionar Grupo empresarial"
 				/>
 			</div>
