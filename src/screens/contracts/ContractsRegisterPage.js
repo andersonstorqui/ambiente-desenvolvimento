@@ -5,6 +5,9 @@ import { navigateBack } from '../../lib/utils/navigation';
 import {
 	notificationActions,
 	contractsActions,
+	energyTypeActions,
+	modulationActions,
+	merchantEnergyActions
 } from '../../store/actions';
 import { LoadingContent, Page } from '../../components/Utils/Page';
 import PropTypes from '../../lib/utils/propTypes';
@@ -23,6 +26,9 @@ class ContractsRegisterPage extends React.Component {
 	async componentDidMount() {
 		const {
 			onGetContracts,
+			onGetEnergyType,
+			onGetMerchant,
+			onGetModulation,
 			match,
 		} = this.props;
 
@@ -31,6 +37,10 @@ class ContractsRegisterPage extends React.Component {
 		this.setState({
 			id,
 		});
+
+		await onGetEnergyType({ active: true });
+		await onGetMerchant({ active: true });
+		await onGetModulation({ active: true });
 
 		if (id) {
 			await onGetContracts({id: id});
@@ -54,8 +64,27 @@ class ContractsRegisterPage extends React.Component {
 
 		const {
 			contracts,
-			loading
+			loading,
+			merchant,
+			energy,
+			modulation
 		} = this.props;
+
+		//OPTIONS Merchant
+		let merchantOptions
+		if (merchant != false) {
+			merchantOptions = merchant.map(index => ({ id: index.id, name: index.merchant }))
+		}
+		//OPTIONS energy
+		let energyOptions
+		if (energy != false) {
+			energyOptions = energy.map(index => ({ id: index.id, name: index.type }))
+		}
+		//OPTIONS modulation
+		let modulationOptions
+		if (modulation != false) {
+			modulationOptions = modulation.map(index => ({ id: index.id, name: index.modulation }))
+		}
 
 		return (
 			<Page
@@ -72,6 +101,9 @@ class ContractsRegisterPage extends React.Component {
 				<LoadingContent loading={id ? !contracts : loading}>
 					<Form
 						list={contracts[0]}
+						energyOptions={energyOptions || []}
+						modulationOptions={modulationOptions || []}
+						merchantOptions={merchantOptions || []}
 						onSubmit={data => this.onSubmit(data)}
 						handleNavigation={() => navigateBack()}
 					/>
@@ -85,6 +117,9 @@ const mapStateToProps = state => {
 	return {
 		loading: state.api.loading,
 		contracts: state.contracts.list,
+		energy: state.energy.list,
+		modulation: state.modulation.list,
+		merchant: state.merchant.list
 	};
 };
 
@@ -95,12 +130,17 @@ const mapDispatchToProps = dispatch => {
 			dispatch(notificationActions.addNotification(message, level)),
 		onAddContracts: data => dispatch(contractsActions.insertContracts(data)),
 		onEditContracts: (data, id) => dispatch(contractsActions.updateContracts(data, id)),
-
+		onGetEnergyType: query => dispatch(energyTypeActions.getEnergyType(query)),
+		onGetModulation: query => dispatch(modulationActions.getModulation(query)),
+		onGetMerchant: query => dispatch(merchantEnergyActions.getMerchantEnergy(query)),
 	};
 };
 
 ContractsRegisterPage.propTypes = {
 	onAddNotification: PropTypes.func.isRequired,
+	onGetEnergyType: PropTypes.func.isRequired,
+	onGetMerchant: PropTypes.func.isRequired,
+	onGetModulation: PropTypes.func.isRequired,
 	onAddContracts: PropTypes.func.isRequired,
 	onGetDist: PropTypes.func.isRequired,
 	onEditContracts: PropTypes.func.isRequired,

@@ -69,13 +69,9 @@ export function* addContracts(payload) {
 export function* activeDesactiveContracts(payload) {
 	const { contracts } = payload;
 	try {
-		const data = {
-			active: !contracts.active,
-			id: contracts.id,
-			contracts: contracts.contracts
-		};
-
-		const response = yield call(contractsApi.updateContracts, data);
+		const { id } = contracts.id;
+		contracts.active = !contracts.active
+		const response = yield call(contractsApi.updateContracts, contracts, id);
 
 		if (response) {
 			const query = yield select(apiSelectors.getQuery);

@@ -74,7 +74,7 @@ export function* activeDesactiveClient(payload) {
 			id: client.id,
 			client: client.client
 		};
-
+		
 		const response = yield call(clientApi.updateClient, data);
 
 		if (response) {

@@ -24,7 +24,7 @@ class ContractsPage extends React.Component {
 				},
 				{
 					name: 'Contrato',
-					selector: 'contracts',
+					selector: 'contracts_cod',
 					sortable: true,
 					width: '75%',
 				},
@@ -36,7 +36,7 @@ class ContractsPage extends React.Component {
 						<ActiveDeleteEdit
 							row={row}
 							onSelect={value => onSelect(value)}
-							route="client"
+							route="contracts"
 							handleNavigation={page => navigate(page)}
 							changeValue={contracts => onActiveDesactiveContract(contracts)}
 						/>
