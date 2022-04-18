@@ -12,3 +12,4 @@ export { clientActions } from '../ducks/client';
 export { merchantEnergyActions } from '../ducks/merchantEnergy';
 export { modulationActions } from '../ducks/modulation';
 export { energyTypeActions } from '../ducks/energyType';
+export { contractsActions } from '../ducks/contracts';

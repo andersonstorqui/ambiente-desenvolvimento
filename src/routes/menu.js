@@ -1,6 +1,7 @@
 import { MdBuild, MdDashboard, MdApps, MdOutlinePersonPinCircle, MdBusiness, MdSegment, MdOutlineVerticalDistribute, MdViewModule } from 'react-icons/md';
-import { FaUserAlt, FaSuitcase } from 'react-icons/fa';
+import { FaUserAlt, FaSuitcase, FaFileContract } from 'react-icons/fa';
 import { BsFillLightningChargeFill } from 'react-icons/bs'
+
 export const navItems = [
 	{
 		to: '/',
@@ -70,6 +71,13 @@ export const navApp = [
 		exact: false,
 		IconSub: BsFillLightningChargeFill,
 		id: 147
+	},
+	{
+		to: '/contracts',
+		name: 'Contratos',
+		exact: false,
+		IconSub: FaFileContract,
+		id: 148
 	}
 ]
 

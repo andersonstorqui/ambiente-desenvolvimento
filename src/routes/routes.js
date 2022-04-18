@@ -38,6 +38,9 @@ const ModulationRegisterPage = React.lazy(() => import('screens/modulation/Modul
 const EnergyTypePage = React.lazy(() => import('screens/energyType/EnergyTypePage'));
 const EnergyTypeRegisterPage = React.lazy(() => import('screens/energyType/EnergyTypeRegisterPage'));
 
+const ContractsPage = React.lazy(() => import('screens/contracts/ContractsPage'));
+const ContractsRegisterPage = React.lazy(() => import('screens/contracts/ContractsRegisterPage'));
+
 const User = Authorize(false, ['USER']);
 
 const routes = [
@@ -251,6 +254,28 @@ const routes = [
 		component: User(EnergyTypeRegisterPage),
 		permission: true,
 		id: 147,
+	},
+	//CONTRACTS
+	{
+		path: '/contracts',
+		name: 'contracts',
+		component: User(ContractsPage),
+		permission: true,
+		id: 148,
+	},
+	{
+		path: '/contracts/add',
+		name: 'contracts add',
+		component: User(ContractsRegisterPage),
+		permission: true,
+		id: 148,
+	},
+	{
+		path: '/contracts/editar/:id',
+		name: 'contracts edit',
+		component: User(ContractsRegisterPage),
+		permission: true,
+		id: 148,
 	},
 ];
 

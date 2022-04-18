@@ -13,6 +13,7 @@ import clientReducer from '../ducks/client';
 import merchantEnergyReducer from '../ducks/merchantEnergy';	
 import modulationReducer from '../ducks/modulation';
 import energyTypeReducer from '../ducks/energyType';
+import contractsReducer from '../ducks/contracts';
 
 const rootReducer = combineReducers({
 	auth: authReducer,
@@ -28,7 +29,8 @@ const rootReducer = combineReducers({
 	client: clientReducer,
 	merchant: merchantEnergyReducer,
 	modulation: modulationReducer,
-	energy: energyTypeReducer
+	energy: energyTypeReducer,
+	contracts: contractsReducer
 });
 
 export default rootReducer;

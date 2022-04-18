@@ -11,6 +11,7 @@ import watchClient from '../ducks/client/sagas';
 import watchMerchantEnergy from '../ducks/merchantEnergy/sagas';
 import watchModulation from '../ducks/modulation/sagas';
 import watchEnergyTypes from '../ducks/energyType/sagas';
+import watchContracts from '../ducks/contracts/sagas';
 
 export default function* startForman() {
 	yield fork(watchUserAuthentication);
@@ -25,4 +26,5 @@ export default function* startForman() {
 	yield fork(watchMerchantEnergy);
 	yield fork(watchModulation);
 	yield fork(watchEnergyTypes);
+	yield fork(watchContracts);
 }
