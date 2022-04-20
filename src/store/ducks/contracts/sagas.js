@@ -40,6 +40,7 @@ export function* addContracts(payload) {
 	yield put(apiActions.apiSubmitStart());
 
 	const data = payload.contracts;
+	data.active = data.active == null ? true : data.active;
 
 	try {
 		const response = yield call(contractsApi.insertContracts, data);
@@ -96,6 +97,8 @@ export function* editContracts(payload) {
 	const data = payload.query;
 	const { id } = payload;
 	data.id = id;
+	data.active = data.active == null ? true : data.active;
+	
 	try {
 		const response = yield call(contractsApi.updateContracts, data, id);
 		if (response.status) {

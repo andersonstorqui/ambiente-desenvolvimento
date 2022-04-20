@@ -21,8 +21,6 @@ const FormUser = ({
 		defaultValues: list,
 	});
 
-	console.log(list)
-	
 	let status
 	if(list){
 		if(list.active){
@@ -38,6 +36,9 @@ const FormUser = ({
 		setActive({ selectedOption });
 	};
 
+	React.useEffect(() => {
+		handleChange({id:true, name:'Ativo'})
+	}, [])
 	
 
 	React.useEffect(() => {

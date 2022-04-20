@@ -41,6 +41,7 @@ export function* addMerchantEnergy(payload) {
 	yield put(apiActions.apiSubmitStart());
 
 	const data = payload.merchant;
+	data.active = data.active == null ? true : data.active;
 
 	try {
 		const response = yield call(merchantEnergyApi.insertMerchantEnergy, data);
@@ -101,6 +102,7 @@ export function* editMerchantEnergy(payload) {
 	const data = payload.query;
 	const { id } = payload;
 	data.id = id;
+	data.active = data.active == null ? true : data.active;
 	try {
 		const response = yield call(merchantEnergyApi.updateMerchantEnergy, data, id);
 		if (response.status) {

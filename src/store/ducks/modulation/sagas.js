@@ -39,6 +39,7 @@ export function* addModulation(payload) {
 	yield put(apiActions.apiSubmitStart());
 
 	const data = payload.modulation;
+	data.active = data.active == null ? true : data.active;
 
 	try {
 		const response = yield call(modulationApi.insertModulation, data);
@@ -99,6 +100,8 @@ export function* editModulation(payload) {
 	const data = payload.query;
 	const { id } = payload;
 	data.id = id;
+	data.active = data.active == null ? true : data.active;
+	
 	try {
 		const response = yield call(modulationApi.updateModulation, data, id);
 		if (response.status) {

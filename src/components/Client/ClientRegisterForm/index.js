@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Button, Col, Row, Label } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import PropTypes from '../../../lib/utils/propTypes';
-import { statusMonitoramento, categoriaClient, subMercado } from '../../../lib/utils/selects';
+import { statusMonitoramento, categoriaClient, subMercado, subgroups } from '../../../lib/utils/selects';
 import Card from '../../Utils/Card/FormCard';
-import { InputLabel, SelectLabel, SelectAsyncLabel, DatePicker, Checkbox } from '../../Utils';
+import { InputLabel, SelectLabel, SelectAsyncLabel, DatePicker } from '../../Utils';
 import bancos from '../../../lib/utils/bancos.json';
+import { formatDate } from '../../../lib/utils/functions';
 
 const FormClient = ({
 	clientLabel,
@@ -108,12 +109,21 @@ const FormClient = ({
 
 	//functions
 	const handleChange = (selectedOption, func, value) => {
+		if (value == 'banco') {
+			selectedOption = { id: selectedOption.value, name: selectedOption.name }
+		}
 		setValue(value, selectedOption.id);
 		func({ selectedOption });
 		if (value == 'state') {
 			getCity(selectedOption.id)
 		}
 	};
+
+	const handleDate = (event, func, value) => {
+		let date = formatDate(event);
+		func(event)
+		setValue(value, date)
+	}
 
 	//VARS
 	const [active, setActive] = useState({ selectedOption: {} });
@@ -131,6 +141,10 @@ const FormClient = ({
 	const [categoria, setCategoria] = useState({ selectedOption: {} })
 	const [submercado, setSubmercado] = useState({ selectedOption: {} })
 	const [userCli, setUser] = useState({ selectedOption: {} })
+	const [banco, setBanco] = useState({ selectedOption: {} })
+	const [dtLaudo, setDtLaudo] = useState();
+	const [dtMigration, setDtMigration] = useState();
+	const [subgroup, setSubgroup] = useState({ selectedOption: {} })
 
 	React.useEffect(() => {
 		//estado
@@ -154,8 +168,15 @@ const FormClient = ({
 		//segment
 		let segmentOption
 		if (list && list.operating_seg) {
-			segmentOption = { id: 'list.operating_seg', name: list.segment_name }
+			segmentOption = { id: list.operating_seg, name: list.segment_name }
 			handleChange(segmentOption, setSegment, 'operating_seg')
+		}
+
+		//user
+		let userOption
+		if (list && list.commercial_resp) {
+			userOption = user.filter(user => user.id == parseInt(list.commercial_resp))[0]
+			handleChange(userOption, setUser, 'commercial_resp')
 		}
 		//aproveita crédito
 		let apro_cred
@@ -187,19 +208,19 @@ const FormClient = ({
 		}
 		//gerador Ponta
 		let gerPont
-		if (list && list.gerador_ponta) {
+		if (list && list.gerador_ponta != null) {
 			gerPont = { id: list.gerador_ponta, name: list.gerador_ponta && 'Sim' || 'Não' }
 			handleChange(gerPont, setGeradorPonta, 'gerador_ponta')
 		}
 		//sazanal
 		let sazonal
-		if (list && list.sazonal) {
+		if (list && list.sazonal != null) {
 			sazonal = { id: list.sazonal, name: list.sazonal && 'Sim' || 'Não' }
 			handleChange(sazonal, setSazanol, 'sazonal')
 		}
 		//rural
 		let rural
-		if (list && list.rural) {
+		if (list && list.rural != null) {
 			rural = { id: list.rural, name: list.rural && 'Sim' || 'Não' }
 			handleChange(rural, setRural, 'rural')
 		}
@@ -227,13 +248,42 @@ const FormClient = ({
 			submercadoOption = subMercado.filter(element => element.id == list.submercado)[0];
 			handleChange(submercadoOption, setSubmercado, 'submercado')
 		}
+
+		//banco
+		let bancoOption
+		if (list && list.banco_operacao_ccee) {
+			bancoOption = bancos.filter(element => element.value == list.banco_operacao_ccee)[0];
+			handleChange(bancoOption, setBanco, 'bancos')
+		}
+
+		//data laudo
+		if (list && list.date_last_laudo) {
+			handleDate(new Date(list.date_last_laudo), setDtLaudo, 'date_last_laudo')
+		}
+
+		//data migraçao
+		if (list && list.data_migration) {
+			handleDate(new Date(list.data_migration), setDtMigration, 'data_migration')
+		}
+
+		//subgroup
+		let subgroup
+		if (list && list.subgroup) {
+			subgroup = subgroups.filter(index => index.id == list.subgroup)[0]
+			handleChange(subgroup, setSubgroup, 'subgroup')
+		}
+
 	}, [list])
+
+	React.useEffect(() => {
+		handleChange({ id: true, name: 'Ativo' }, setActive, 'active')
+	}, [])
 
 	React.useEffect(() => {
 		register({ name: 'active' });
 		register({ name: 'group' });
 		register({ name: 'operating_seg' });
-		register({ name: 'user' });
+		register({ name: 'commercial_resp' });
 		register({ name: 'dist' });
 		register({ name: 'state' });
 		register({ name: 'apro_cred' });
@@ -245,6 +295,11 @@ const FormClient = ({
 		register({ name: 'categoria' });
 		register({ name: 'submercado' });
 		register({ name: 'tarife' });
+		register({ name: 'banco' });
+		register({ name: 'date_last_laudo' });
+		register({ name: 'data_migration' });
+		register({ name: 'subgroup' });
+
 	}, [register]);
 
 	return (
@@ -300,7 +355,7 @@ const FormClient = ({
 							{...respInputProps}
 							options={user}
 							value={userCli.selectedOption}
-							onChange={target => handleChange(target, setUser, 'user')}
+							onChange={target => handleChange(target, setUser, 'commercial_resp')}
 						/>
 					</Col>
 					<Col xl={3} lg={12} md={12}>
@@ -383,17 +438,16 @@ const FormClient = ({
 					<Col xl={3} lg={12} md={12}>
 						<DatePicker
 							label={periodlastLaudoLabel}
-							//selected={dt_atendimento}
+							selected={dtLaudo}
 							{...periodlastLaudoInputsProps}
-						//onChange={event => handleDtAtendimento(event)}
+							onChange={event => handleDate(event, setDtLaudo, 'date_last_laudo')}
 						/>
 					</Col>
 					<Col xl={3} lg={12} md={12}>
 						<DatePicker
 							label={periodMigrationLabel}
-							//selected={dt_atendimento}
-							{...periodMigrationInputsProps}
-						//onChange={event => handleDtAtendimento(event)}
+							selected={dtMigration}
+							onChange={event => handleDate(event, setDtMigration, 'data_migration')}
 						/>
 					</Col>
 
@@ -419,7 +473,7 @@ const FormClient = ({
 					</Col>
 				</Row>
 				<Row>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={4} lg={12} md={12}>
 						<InputLabel
 							label={currentAccountLabel}
 							{...currentAccountInputProps}
@@ -427,13 +481,15 @@ const FormClient = ({
 						/>
 					</Col>
 					<Col xl={3} lg={12} md={12}>
-						<InputLabel
+						<SelectLabel
 							label={subGroupLabel}
 							{...subGroupInputProps}
-							innerRef={register}
+							options={subgroups}
+							value={subgroup.selectedOption}
+							onChange={target => handleChange(target, setSubgroup, 'subgroup')}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={2} lg={12} md={12}>
 						<SelectLabel
 							label={tarifeLabel}
 							{...tarifeInputProps}
@@ -494,8 +550,8 @@ const FormClient = ({
 							label={bancosLabel}
 							{...bancosInputProps}
 							options={bancos}
-						//value={geraPonta.selectedOption}
-						//onChange={target => handleChange(target, setgeraPonta, 'gera_ponta')}
+							value={banco.selectedOption}
+							onChange={target => handleChange(target, setBanco, 'banco')}
 						/>
 					</Col>
 					<Col xl={4} lg={12} md={12}>
@@ -670,6 +726,7 @@ FormClient.defaultProps = {
 		name: 'client',
 		id: 'client',
 		placeholder: 'cliente',
+		required: true,
 
 	},
 	groupLabel: 'Grupo',
@@ -677,6 +734,7 @@ FormClient.defaultProps = {
 		name: 'group',
 		id: 'group',
 		placeholder: 'Grupo',
+		required: true,
 
 	},
 	corporateLabel: 'Razão social',
@@ -684,7 +742,7 @@ FormClient.defaultProps = {
 		name: 'corporate',
 		id: 'corporate',
 		placeholder: 'Razão social',
-
+		required: true,
 	},
 	segmentLabel: 'Segmento de atuação',
 	segmentInputProps: {
@@ -693,16 +751,17 @@ FormClient.defaultProps = {
 	},
 	respLabel: 'Responsável comercial',
 	respInputProps: {
-		name: 'resp',
-		id: 'resp',
+		name: 'commercial_resp',
+		id: 'commercial_resp',
 		placeholder: 'Responsável comercial',
-
+		required: true,
 	},
 	distLabel: 'Distribuidora',
 	distInputProps: {
 		name: 'dist',
 		id: 'dist',
 		placeholder: 'Distribuidora',
+		required: true,
 
 	},
 	unidadeCLabel: 'Unidade Consumidora',
@@ -710,6 +769,7 @@ FormClient.defaultProps = {
 		name: 'unid_consumer',
 		id: 'unid_consumer',
 		placeholder: 'Unidade Consumidora',
+		required: true,
 
 	},
 	countryLabel: 'País',
@@ -745,6 +805,7 @@ FormClient.defaultProps = {
 		name: 'ICMS',
 		id: 'ICMS',
 		placeholder: 'Alíquota ICMS',
+		required: true,
 
 	},
 	CNPJLabel: 'CNPJ',
@@ -770,14 +831,16 @@ FormClient.defaultProps = {
 	},
 	periodlastLaudoLabel: 'Data ultimo laudo',
 	periodlastLaudoInputProps: {
-		name: 'periodlastLaudo',
-		id: 'periodlastLaudo',
+		name: 'date_last_laudo',
+		id: 'date_last_laudo',
+		required: true,
 
 	},
 	periodMigrationLabel: 'Data Migração',
 	periodMigrationInputProps: {
-		name: 'periodMigration',
-		id: 'periodMigration',
+		name: 'data_migration',
+		id: 'data_migration',
+		required: true,
 
 	},
 	monitoramentoLabel: 'Monitoramento',
@@ -792,12 +855,12 @@ FormClient.defaultProps = {
 
 		id: 'status_monitoring',
 	},
-	currentAccountLabel: 'Status Monitoramento',
+	currentAccountLabel: 'Conta corrente de cessão (banco, ag e cc)',
 	currentAccountInputProps: {
 		name: 'current_account',
 
 		id: 'current_account',
-		placeholder: 'Status Monitoramento',
+		placeholder: 'Conta corrente de cessão (banco, ag e cc)',
 
 	},
 	subGroupLabel: 'SubGrupo',
@@ -814,17 +877,17 @@ FormClient.defaultProps = {
 
 		placeholder: 'Tarifa',
 	},
-	potenceTRLabel: 'Potencial Total TR',
+	potenceTRLabel: 'Potência Total TR',
 	potenceTRInputProps: {
 		name: 'potence_tot_tr',
 		id: 'potence_tot_tr',
 
-		placeholder: 'Potencial Total TR',
+		placeholder: 'Potência Total TR',
 	},
 	geraPontLabel: 'Gerador de Ponta',
 	geraPontInputProps: {
-		name: 'gera_ponta',
-		id: 'gera_ponta',
+		name: 'gerador_ponta',
+		id: 'gerador_ponta',
 
 		placeholder: 'Gerador de Ponta',
 	},
@@ -917,8 +980,8 @@ FormClient.defaultProps = {
 	},
 	nomeMedicaoLabel: 'Nome Medicao',
 	nomeMedicaoInputProps: {
-		name: 'nomeMedicao',
-		id: 'nomeMedicao',
+		name: 'name_medicao',
+		id: 'name_medicao',
 
 		placeholder: 'Nome Medicao',
 	},

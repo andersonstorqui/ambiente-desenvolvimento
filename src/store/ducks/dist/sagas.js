@@ -41,6 +41,7 @@ export function* addDist(payload) {
 	yield put(apiActions.apiSubmitStart());
 
 	const data = payload.dist;
+	data.active = data.active == null ? true : data.active;
 
 	try {
 		const response = yield call(distApi.insertDist, data);
@@ -101,6 +102,8 @@ export function* editDist(payload) {
 	const data = payload.query;
 	const { id } = payload;
 	data.id = id;
+	data.active = data.active == null ? true : data.active;
+	
 	try {
 		const response = yield call(distApi.updateDist, data, id);
 		if (response.status) {

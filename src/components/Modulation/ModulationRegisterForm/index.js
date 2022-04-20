@@ -38,7 +38,10 @@ const FormModulation = ({
 	};
 
 	
-
+	React.useEffect(() => {
+		handleChange({id:true, name:'Ativo'})
+	}, [])
+	
 	React.useEffect(() => {
 		register({ name: 'active' });
 	}, [register]);

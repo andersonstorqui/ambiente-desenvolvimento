@@ -78,6 +78,8 @@ const FormContracts = ({
 	const [contrapart, setContrapart] = useState({ selectedOption: {}});
 	const [exige, setExige] = useState({ selectedOption: {}});
 
+	
+
 	React.useEffect(() => {
 		//status
 		let status
@@ -145,6 +147,9 @@ const FormContracts = ({
 	}, [list])
 
 
+	React.useEffect(() => {
+		handleChange({ id: true, name: 'Ativo' }, setActive, 'active')
+	}, [])
 
 	React.useEffect(() => {
 		register({ name: 'active' });

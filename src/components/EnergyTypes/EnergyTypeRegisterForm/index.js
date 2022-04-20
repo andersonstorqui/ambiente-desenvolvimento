@@ -37,7 +37,9 @@ const FormEnergyType = ({
 		setActive({ selectedOption });
 	};
 
-	
+	React.useEffect(() => {
+		handleChange({id:true, name:'Ativo'})
+	}, [])
 
 	React.useEffect(() => {
 		register({ name: 'active' });

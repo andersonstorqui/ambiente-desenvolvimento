@@ -49,3 +49,11 @@ export const proposalType = [
 	{ id: '1', name: 'Normal' },
 	{ id: '2', name: 'Especial' },
 ];
+
+export const subgroups = [
+	{ id: 1, name: 'A2' },
+	{ id: 2, name: 'A3' },
+	{ id: 3, name: 'A3A' },
+	{ id: 4, name: 'A4' },
+	{ id: 5, name: 'AS' },
+]

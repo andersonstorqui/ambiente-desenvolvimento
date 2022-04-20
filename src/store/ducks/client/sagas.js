@@ -40,7 +40,8 @@ export function* addClient(payload) {
 	yield put(apiActions.apiSubmitStart());
 
 	const data = payload.client;
-
+	data.active = data.active == null ? true : data.active;
+	
 	try {
 		const response = yield call(clientApi.insertClient, data);
 		if (response.status) {
@@ -100,6 +101,8 @@ export function* editClient(payload) {
 	const data = payload.query;
 	const { id } = payload;
 	data.id = id;
+	data.active = data.active == null ? true : data.active;
+
 	try {
 		const response = yield call(clientApi.updateClient, data, id);
 		if (response.status) {

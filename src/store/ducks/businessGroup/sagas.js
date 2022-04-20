@@ -41,6 +41,7 @@ export function* addBusinessGroup(payload) {
 	yield put(apiActions.apiSubmitStart());
 
 	const data = payload.group;
+	data.active = data.active == null ? true : data.active;
 
 	try {
 		const response = yield call(businessGroupApi.insertBusinessGroup, data);
@@ -100,7 +101,9 @@ export function* editBusinessGroup(payload) {
 
 	const data = payload.query;
 	const { id } = payload;
-	data.id = id;
+	data.id = id ;
+	data.active = data.active == null ? true : data.active;
+	
 	try {
 		const response = yield call(businessGroupApi.updateBusinessGroup, data, id);
 		if (response.status) {

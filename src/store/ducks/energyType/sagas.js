@@ -40,6 +40,7 @@ export function* addEnergyType(payload) {
 	yield put(apiActions.apiSubmitStart());
 
 	const data = payload.types;
+	data.active = data.active == null ? true : data.active;
 
 	try {
 		const response = yield call(energyTypeApi.insertEnergyType, data);
@@ -100,6 +101,8 @@ export function* editEnergyType(payload) {
 	const data = payload.query;
 	const { id } = payload;
 	data.id = id;
+	data.active = data.active == null ? true : data.active;
+	
 	try {
 		const response = yield call(energyTypeApi.updateEnergyType, data, id);
 		if (response.status) {

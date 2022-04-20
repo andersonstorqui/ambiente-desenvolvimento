@@ -73,7 +73,7 @@ export const formatCep = value => {
 
 export const today = () => moment(new Date()).format('DD/MM/YYYY');
 
-export const formatDate = value => moment(value).format('DD/MM/YYYY');
+export const formatDate = value => moment(value).format('YYYY/MM/DD');
 
 export const formatNumber = num => {
 	return num.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1.');

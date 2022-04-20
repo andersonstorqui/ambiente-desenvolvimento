@@ -5,6 +5,7 @@ import moment from 'moment';
 import { today } from '../../lib/utils/functions';
 import PropTypes from '../../lib/utils/propTypes';
 import { FormGroup, InputGroup, InputGroupAddon, Label } from 'reactstrap';
+import 'react-datepicker/dist/react-datepicker.css';
 
 
 registerLocale('ptBR', ptBR);

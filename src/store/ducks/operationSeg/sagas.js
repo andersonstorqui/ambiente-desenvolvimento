@@ -42,6 +42,7 @@ export function* addOperationSeg(payload) {
 	yield put(apiActions.apiSubmitStart());
 
 	const data = payload.segment;
+	data.active = data.active == null ? true : data.active;
 
 	try {
 		const response = yield call(operationSegApi.insertOperationSeg, data);
@@ -102,6 +103,8 @@ export function* editOperationSegment(payload) {
 	const data = payload.query;
 	const { id } = payload;
 	data.id = id;
+	data.active = data.active == null ? true : data.active;
+	
 	try {
 		const response = yield call(operationSegApi.updateOperationSeg, data, id);
 		if (response.status) {
