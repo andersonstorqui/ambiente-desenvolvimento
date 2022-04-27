@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Button, Col, Row, Label } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import PropTypes from '../../../lib/utils/propTypes';
-import { statusMonitoramento, categoriaClient, subMercado } from '../../../lib/utils/selects';
 import Card from '../../Utils/Card/FormCard';
 import { InputLabel, SelectLabel, SelectAsyncLabel, DatePicker, Checkbox } from '../../Utils';
-import bancos from '../../../lib/utils/bancos.json';
+import { formatDate } from '../../../lib/utils/functions';
+import { meses } from '../../../lib/utils/selects';
 
 const FormContracts = ({
 	activeLabel,
@@ -62,11 +62,19 @@ const FormContracts = ({
 		defaultValues: list,
 	});
 
+
 	//functions
 	const handleChange = (selectedOption, func, value) => {
 		setValue(value, selectedOption.id);
 		func({ selectedOption });
 	};
+
+	const handleDate = (event, func, value) => {
+		let date = formatDate(event);
+		console.log(date)
+		func(event)
+		setValue(value, date)
+	}
 
 	//VARS
 	const [active, setActive] = useState({ selectedOption: {} });
@@ -77,18 +85,21 @@ const FormContracts = ({
 	const [renove, setRenove] = useState({ selectedOption: {}});
 	const [contrapart, setContrapart] = useState({ selectedOption: {}});
 	const [exige, setExige] = useState({ selectedOption: {}});
+	const [dtIni, setDtIni] = useState();
+	const [dtEnd, setDtEnd] = useState();
+	const [dtSazonalidade, setDtSazonalidade] = useState();
+	const [mes, setMes] = useState({selectedOption: {}});
 
 	
 
 	React.useEffect(() => {
 		//status
 		let status
-		if (list && list.active) {
-			status = { id: true, name: 'Ativo' }
-			handleChange(status, setActive, 'active')
-
-		} else {
+		if (list && list.active === false) {
 			status = { id: false, name: 'Inativo' }
+			handleChange(status, setActive, 'active')
+		} else {
+			status = { id: true, name: 'Ativo' }
 			handleChange(status, setActive, 'active')
 		}
 
@@ -143,13 +154,31 @@ const FormContracts = ({
 		if (list && list.exige_garantia) {
 			exige = { id: list.exige_garantia, name: list.exige_garantia == 1 ? 'Sim' : list.exige_garantia == 0 ? 'Nao' : 'Sim' }
 			handleChange(exige, setExige, 'exige_garantia')
-		} 
+		}
+
+		//dt Ini
+		if(list && list.dt_ini){
+			handleDate(new Date(list.dt_ini), setDtIni, 'dt_ini')
+		}
+
+		//dt End
+		if(list && list.dt_end){
+			handleDate(new Date(list.dt_end), setDtEnd, 'dt_end')
+		}
+
+		//dt Sazonalidade
+		if(list && list.date_sazonalidade){
+			handleDate(new Date(list.date_sazonalidade), setDtSazonalidade, 'date_sazonalidade')
+		}
+
+		//mes
+		if(list && list.mes_reajust){
+			let mes  = meses.filter(index => index.id == list.mes_reajust)[0];
+			handleChange(mes, setMes, 'mes_reajust')
+		}
+
 	}, [list])
 
-
-	React.useEffect(() => {
-		handleChange({ id: true, name: 'Ativo' }, setActive, 'active')
-	}, [])
 
 	React.useEffect(() => {
 		register({ name: 'active' });
@@ -160,6 +189,11 @@ const FormContracts = ({
 		register({ name: 'contrapart' });
 		register({ name: 'exige_garantia' });
 		register({ name: 'contrato_renovado' });
+		register({ name: 'date_sazonalidade' });
+		register({ name: 'mes_reajust' });
+		register({ name: 'dt_ini' });
+		register({ name: 'dt_end' });
+
 
 	}, [register]);
 
@@ -204,17 +238,17 @@ const FormContracts = ({
 					<Col xl={3} lg={12} md={12}>
 						<DatePicker
 							label={dtIniLabel}
-							//selected={dt_atendimento}
+							selected={dtIni}
 							{...dtIniInputsProps}
-						//onChange={event => handleDtAtendimento(event)}
+							onChange={event => handleDate(event, setDtIni, 'dt_ini')}
 						/>
 					</Col>
 					<Col xl={3} lg={12} md={12}>
 						<DatePicker
 							label={dtEndLabel}
-							//selected={dt_atendimento}
+							selected={dtEnd}
 							{...dtEndInputsProps}
-						//onChange={event => handleDtAtendimento(event)}
+							onChange={event => handleDate(event, setDtEnd, 'dt_end')}
 						/>
 					</Col>
 					<Col xl={3} lg={12} md={12}>
@@ -245,9 +279,9 @@ const FormContracts = ({
 					<Col xl={4} lg={12} md={12}>
 						<DatePicker
 							label={dtSazonalidadeLabel}
-							//selected={dt_atSazonalidadeimento}
+							selected={dtSazonalidade}
 							{...dtSazonalidadeInputsProps}
-						//onChange={event => handleDtAtendimento(event)}
+							onChange={event => handleDate(event, setDtSazonalidade, 'date_sazonalidade')}
 						/>
 					</Col>
 					<Col xl={4} lg={12} md={12}>
@@ -303,11 +337,12 @@ const FormContracts = ({
 						/>
 					</Col>
 					<Col xl={4} lg={12} md={12}>
-						<DatePicker
+						<SelectLabel
 							label={mesReajustLabel}
-							//selected={dt_atendimento}
 							{...mesReajustInputProps}
-							//onChange={event => handleDtAtendimento(event)}
+							options={meses}
+							value={mes.selectedOption}
+							onChange={target => handleChange(target, setMes, 'mes_reajust')}
 						/>
 					</Col>
 				</Row>
@@ -421,22 +456,26 @@ FormContracts.defaultProps = {
 	contrPartInputProps: {
 		name: 'contrapart',
 		id: 'contrapart',
+		required: true
 	},
 	complementarLabel: 'Contrato complementar',
 	complementarInputProps: {
 		name: 'contrato_complementar',
 		id: 'contrato_complementar',
 		placeholder: 'Contrato complementar',
+		required: true
 	},
 	dtIniLabel: 'Data inicio',
 	dtIniInputProps: {
 		name: 'dt_ini',
 		id: 'dt_ini',
+		required: true
 	},
 	dtEndLabel: 'Data Final',
 	dtEndInputProps: {
 		name: 'dt_end',
 		id: 'dt_end',
+		required: true
 	},
 	perdasLabel: 'Perdas',
 	perdasInputProps: {
@@ -457,9 +496,9 @@ FormContracts.defaultProps = {
 		placeholder: 'Sazonalidade',
 	},
 	dtSazonalidadeLabel: 'Data Sazonalidade',
-	dtSazonalidadeInputProps: {
-		name: 'dtSazonalidade',
-		id: 'dtSazonalidade',
+	dtSazonalidadeInputsProps: {
+		name: 'date_sazonalidade',
+		id: 'date_sazonalidade`',
 		placeholder: 'Data Sazonalidade',
 	},
 	energiaLabel: 'Tipo de energia',

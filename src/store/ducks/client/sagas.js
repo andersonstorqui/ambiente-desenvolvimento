@@ -69,14 +69,12 @@ export function* addClient(payload) {
 
 export function* activeDesactiveClient(payload) {
 	const { client } = payload;
+	
 	try {
-		const data = {
-			active: !client.active,
-			id: client.id,
-			client: client.client
-		};
+		client.active = !client.active;
+
 		
-		const response = yield call(clientApi.updateClient, data);
+		const response = yield call(clientApi.updateClient, client);
 
 		if (response) {
 			const query = yield select(apiSelectors.getQuery);

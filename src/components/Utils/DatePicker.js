@@ -31,6 +31,7 @@ const DatePickerComponent = ({
 						}
 						className="form-control"
 						onChange={handleChange}
+						required='true'
 						locale="ptBR"
 						dateFormat="dd/MM/yyyy"
 						placeholderText={placeholderText}

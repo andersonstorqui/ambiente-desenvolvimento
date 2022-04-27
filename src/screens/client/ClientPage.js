@@ -38,7 +38,7 @@ class ClientPage extends React.Component {
 							onSelect={value => onSelect(value)}
 							route="client"
 							handleNavigation={page => navigate(page)}
-							changeValue={group => onActiveDesactiveClient(group)}
+							changeValue={client => onActiveDesactiveClient(client)}
 						/>
 					),
 				},
