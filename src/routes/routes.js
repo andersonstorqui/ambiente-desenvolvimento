@@ -41,6 +41,9 @@ const EnergyTypeRegisterPage = React.lazy(() => import('screens/energyType/Energ
 const ContractsPage = React.lazy(() => import('screens/contracts/ContractsPage'));
 const ContractsRegisterPage = React.lazy(() => import('screens/contracts/ContractsRegisterPage'));
 
+const PricesPage = React.lazy(() => import('screens/prices/PricesPage'));
+const PricesPageRegisterPage = React.lazy(() => import('screens/prices/PricesRegisterPage'));
+
 const User = Authorize(false, ['USER']);
 
 const routes = [
@@ -276,6 +279,28 @@ const routes = [
 		component: User(ContractsRegisterPage),
 		permission: true,
 		id: 148,
+	},
+	//PRICES
+	{
+		path: '/prices',
+		name: 'prices',
+		component: User(PricesPage),
+		permission: true,
+		id: 149,
+	},
+	{
+		path: '/prices/add',
+		name: 'prices add',
+		component: User(PricesPageRegisterPage),
+		permission: true,
+		id: 149,
+	},
+	{
+		path: '/prices/editar/:id',
+		name: 'prices edit',
+		component: User(PricesPageRegisterPage),
+		permission: true,
+		id: 149,
 	},
 ];
 

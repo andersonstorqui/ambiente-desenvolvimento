@@ -1,6 +1,7 @@
 import { MdBuild, MdDashboard, MdApps, MdOutlinePersonPinCircle, MdBusiness, MdSegment, MdOutlineVerticalDistribute, MdViewModule } from 'react-icons/md';
 import { FaUserAlt, FaSuitcase, FaFileContract } from 'react-icons/fa';
-import { BsFillLightningChargeFill } from 'react-icons/bs'
+import { BsFillLightningChargeFill } from 'react-icons/bs';
+import { RiPriceTag3Fill } from 'react-icons/ri';
 
 export const navItems = [
 	{
@@ -78,6 +79,13 @@ export const navApp = [
 		exact: false,
 		IconSub: FaFileContract,
 		id: 148
+	},
+	{
+		to: '/prices',
+		name: 'Preços',
+		exact: false,
+		IconSub: RiPriceTag3Fill,
+		id: 149
 	}
 ]
 
