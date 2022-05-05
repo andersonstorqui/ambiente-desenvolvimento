@@ -2,6 +2,7 @@ import React from 'react';
 import { Col, Row, Progress } from 'reactstrap';
 import Card from '../../Utils/Card/FormCard';
 import { Chart } from "react-google-charts";
+import R from '../../../lib/constants/R';
 
 export const data = [
     [
@@ -42,6 +43,7 @@ class Dashboard extends React.Component {
     render() {
         return (
             <>
+                <img src={R.images.welcome} className='banner' />
                 <Row>
                     <Col xl={4} lg={4} md={4}>
                         <Card>
@@ -90,14 +92,14 @@ class Dashboard extends React.Component {
                         </Card>
                     </Col>
                     <Col xl={3} lg={3} md={6}>
-                       <Card>
-                           <p>Avisos</p>
-                       </Card>
+                        <Card>
+                            <p>Avisos</p>
+                        </Card>
                     </Col>
                     <Col xl={3} lg={3} md={6} >
-                       <Card style={{height: '342px'}}>
-                           <p>Pedidos</p>
-                       </Card>
+                        <Card style={{ height: '342px' }}>
+                            <p>Pedidos</p>
+                        </Card>
                     </Col>
                 </Row>
 

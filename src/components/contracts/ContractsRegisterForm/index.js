@@ -3,8 +3,7 @@ import { Button, Col, Row, Label } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import PropTypes from '../../../lib/utils/propTypes';
 import Card from '../../Utils/Card/FormCard';
-import { InputLabel, SelectLabel, SelectAsyncLabel, DatePicker, Checkbox } from '../../Utils';
-import { formatDate } from '../../../lib/utils/functions';
+import { InputLabel, SelectLabel } from '../../Utils';
 import { meses } from '../../../lib/utils/selects';
 
 const FormContracts = ({
@@ -69,13 +68,6 @@ const FormContracts = ({
 		func({ selectedOption });
 	};
 
-	const handleDate = (event, func, value) => {
-		let date = formatDate(event);
-		console.log(date)
-		func(event)
-		setValue(value, date)
-	}
-
 	//VARS
 	const [active, setActive] = useState({ selectedOption: {} });
 	const [descInfra, setDescInfra] = useState({ selectedOption: {}});
@@ -85,12 +77,7 @@ const FormContracts = ({
 	const [renove, setRenove] = useState({ selectedOption: {}});
 	const [contrapart, setContrapart] = useState({ selectedOption: {}});
 	const [exige, setExige] = useState({ selectedOption: {}});
-	const [dtIni, setDtIni] = useState();
-	const [dtEnd, setDtEnd] = useState();
-	const [dtSazonalidade, setDtSazonalidade] = useState();
 	const [mes, setMes] = useState({selectedOption: {}});
-
-	
 
 	React.useEffect(() => {
 		//status
@@ -156,21 +143,6 @@ const FormContracts = ({
 			handleChange(exige, setExige, 'exige_garantia')
 		}
 
-		//dt Ini
-		if(list && list.dt_ini){
-			handleDate(new Date(list.dt_ini), setDtIni, 'dt_ini')
-		}
-
-		//dt End
-		if(list && list.dt_end){
-			handleDate(new Date(list.dt_end), setDtEnd, 'dt_end')
-		}
-
-		//dt Sazonalidade
-		if(list && list.date_sazonalidade){
-			handleDate(new Date(list.date_sazonalidade), setDtSazonalidade, 'date_sazonalidade')
-		}
-
 		//mes
 		if(list && list.mes_reajust){
 			let mes  = meses.filter(index => index.id == list.mes_reajust)[0];
@@ -189,19 +161,14 @@ const FormContracts = ({
 		register({ name: 'contrapart' });
 		register({ name: 'exige_garantia' });
 		register({ name: 'contrato_renovado' });
-		register({ name: 'date_sazonalidade' });
 		register({ name: 'mes_reajust' });
-		register({ name: 'dt_ini' });
-		register({ name: 'dt_end' });
-
-
 	}, [register]);
 
 	return (
 		<Card title="Novo contrato">
 			<form onSubmit={handleSubmit(onSubmit)} {...restProps}>
 				<Row>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<SelectLabel
 							label={activeLabel}
 							{...activeInputProps}
@@ -210,14 +177,14 @@ const FormContracts = ({
 							onChange={target => handleChange(target, setActive, 'active')}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<InputLabel
 							label={contractCodLabel}
 							{...contractCodInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<SelectLabel
 							label={contrPartLabel}
 							{...contrPartInputProps}
@@ -226,7 +193,7 @@ const FormContracts = ({
 							onChange={target => handleChange(target, setContrapart, 'contrapart')}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<InputLabel
 							label={complementarLabel}
 							{...complementarInputProps}
@@ -235,30 +202,30 @@ const FormContracts = ({
 					</Col>
 				</Row>
 				<Row>
-					<Col xl={3} lg={12} md={12}>
-						<DatePicker
+					<Col xl={3} lg={3} md={12}>
+						<InputLabel
+							type="date"
 							label={dtIniLabel}
-							selected={dtIni}
 							{...dtIniInputsProps}
-							onChange={event => handleDate(event, setDtIni, 'dt_ini')}
+							innerRef={register}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
-						<DatePicker
+					<Col xl={3} lg={3} md={12}>
+						<InputLabel
+							type="date"
 							label={dtEndLabel}
-							selected={dtEnd}
 							{...dtEndInputsProps}
-							onChange={event => handleDate(event, setDtEnd, 'dt_end')}
+							innerRef={register}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<InputLabel
 							label={perdasLabel}
 							{...perdasInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<SelectLabel
 							label={descProinfaLabel}
 							{...descProinfaInputProps}
@@ -269,22 +236,22 @@ const FormContracts = ({
 					</Col>
 				</Row>
 				<Row>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<InputLabel
 							label={sazonalidadeLabel}
 							{...sazonalidadeInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
-						<DatePicker
+					<Col xl={4} lg={4} md={12}>
+						<InputLabel
+							type="date"
 							label={dtSazonalidadeLabel}
-							selected={dtSazonalidade}
 							{...dtSazonalidadeInputsProps}
-							onChange={event => handleDate(event, setDtSazonalidade, 'date_sazonalidade')}
+							innerRef={register}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<SelectLabel
 							label={modulationLabel}
 							{...modulationInputProps}
@@ -295,21 +262,21 @@ const FormContracts = ({
 					</Col>
 				</Row>
 				<Row>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<InputLabel
 							label={flexMinLabel}
 							{...flexMinInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<InputLabel
 							label={flexMaxLabel}
 							{...flexMaxInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<SelectLabel
 							label={energiaLabel}
 							{...energiaInputProps}
@@ -320,14 +287,14 @@ const FormContracts = ({
 					</Col>
 				</Row>
 				<Row>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<InputLabel
 							label={dbReajustLabel}
 							{...dbReajustInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<SelectLabel
 							label={indexadorLabel}
 							{...indexadorInputProps}
@@ -336,7 +303,7 @@ const FormContracts = ({
 							onChange={target => handleChange(target, setIndexador, 'indexador')}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<SelectLabel
 							label={mesReajustLabel}
 							{...mesReajustInputProps}
@@ -347,7 +314,7 @@ const FormContracts = ({
 					</Col>
 				</Row>
 				<Row>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<SelectLabel
 							label={renoveLabel}
 							{...renoveInputProps}
@@ -356,14 +323,14 @@ const FormContracts = ({
 							onChange={target => handleChange(target, setRenove, 'contrato_renovado')}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<InputLabel
 							label={obsLabel}
 							{...obsInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<SelectLabel
 							label={garantiaLabel}
 							{...garantiaInputProps}
@@ -466,13 +433,13 @@ FormContracts.defaultProps = {
 		required: true
 	},
 	dtIniLabel: 'Data inicio',
-	dtIniInputProps: {
+	dtIniInputsProps: {
 		name: 'dt_ini',
 		id: 'dt_ini',
 		required: true
 	},
 	dtEndLabel: 'Data Final',
-	dtEndInputProps: {
+	dtEndInputsProps: {
 		name: 'dt_end',
 		id: 'dt_end',
 		required: true

@@ -36,17 +36,11 @@ class AuthPage extends React.Component {
 
 		return (
 			<div id="login-page">
-				<div className="container">
-					<div className="screen">
-						<div className="screen__content">
-							<AuthForm
-								onSubmit={this.onSubmit}
-								showNotification={this.showNotification}
-								loading={loading}
-							/>
-						</div>
-					</div>
-				</div>
+				<AuthForm
+					onSubmit={this.onSubmit}
+					showNotification={this.showNotification}
+					loading={loading}
+				/>
 				<NotificationSystem
 					dismissible={false}
 					// eslint-disable-next-line no-return-assign

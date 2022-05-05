@@ -74,7 +74,7 @@ class ClientPage extends React.Component {
 					onSubmitFilter={data => onGetList(data)}
 					/>
 					<ModalDelete
-						name={select ? select.group : ''}
+						name={select ? select.client : ''}
 						onSubmit={() => onDelete(select.id)}
 					/>
 				</LoadingContent>

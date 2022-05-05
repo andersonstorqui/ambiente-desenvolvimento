@@ -41,12 +41,11 @@ class ClientRegisterPage extends React.Component {
 		this.setState({
 			id,
 		});
-
+		await onGetStates();
 		await onGetGroups({ active: true });
 		await onGetDist({ active: true });
 		await onGetSegment({ active: true });
 		await onGetListUsers();
-		await onGetStates();
 		if (id) {
 			await onGetClient({id: id});
 		}
@@ -116,7 +115,7 @@ class ClientRegisterPage extends React.Component {
 						active: true,
 					},
 				]}>
-				<LoadingContent loading={id ? !client : loading}>
+				<LoadingContent loading={id ? !client || !states || !userOptions : loading}>
 					<Form
 						list={client[0]}
 						groups={groupsOptions || []}

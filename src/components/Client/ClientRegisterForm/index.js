@@ -4,9 +4,8 @@ import { useForm } from 'react-hook-form';
 import PropTypes from '../../../lib/utils/propTypes';
 import { statusMonitoramento, categoriaClient, subMercado, subgroups } from '../../../lib/utils/selects';
 import Card from '../../Utils/Card/FormCard';
-import { InputLabel, SelectLabel, SelectAsyncLabel, DatePicker } from '../../Utils';
+import { InputLabel, SelectLabel, SelectAsyncLabel } from '../../Utils';
 import bancos from '../../../lib/utils/bancos.json';
-import { formatDate } from '../../../lib/utils/functions';
 
 const FormClient = ({
 	clientLabel,
@@ -106,7 +105,6 @@ const FormClient = ({
 	const { register, handleSubmit, setValue } = useForm({
 		defaultValues: list,
 	});
-
 	//functions
 	const handleChange = (selectedOption, func, value) => {
 		if (value == 'banco') {
@@ -119,12 +117,7 @@ const FormClient = ({
 		}
 	};
 
-	const handleDate = (event, func, value) => {
-		let date = formatDate(event);
-		func(event)
-		setValue(value, date)
-	}
-
+	
 	//VARS
 	const [active, setActive] = useState({ selectedOption: {} });
 	const [group, setGroup] = useState({ selectedOption: {} });
@@ -142,8 +135,6 @@ const FormClient = ({
 	const [submercado, setSubmercado] = useState({ selectedOption: {} })
 	const [userCli, setUser] = useState({ selectedOption: {} })
 	const [banco, setBanco] = useState({ selectedOption: {} })
-	const [dtLaudo, setDtLaudo] = useState();
-	const [dtMigration, setDtMigration] = useState();
 	const [subgroup, setSubgroup] = useState({ selectedOption: {} })
 
 	React.useEffect(() => {
@@ -178,6 +169,7 @@ const FormClient = ({
 			userOption = user.filter(user => user.id == parseInt(list.commercial_resp))[0]
 			handleChange(userOption, setUser, 'commercial_resp')
 		}
+
 		//aproveita crédito
 		let apro_cred
 		if (list && list.apro_cred) {
@@ -256,16 +248,6 @@ const FormClient = ({
 			handleChange(bancoOption, setBanco, 'bancos')
 		}
 
-		//data laudo
-		if (list && list.date_last_laudo) {
-			handleDate(new Date(list.date_last_laudo), setDtLaudo, 'date_last_laudo')
-		}
-
-		//data migraçao
-		if (list && list.data_migration) {
-			handleDate(new Date(list.data_migration), setDtMigration, 'data_migration')
-		}
-
 		//subgroup
 		let subgroup
 		if (list && list.subgroup) {
@@ -296,8 +278,6 @@ const FormClient = ({
 		register({ name: 'submercado' });
 		register({ name: 'tarife' });
 		register({ name: 'banco' });
-		register({ name: 'date_last_laudo' });
-		register({ name: 'data_migration' });
 		register({ name: 'subgroup' });
 
 	}, [register]);
@@ -306,14 +286,14 @@ const FormClient = ({
 		<Card title="Novo cliente">
 			<form onSubmit={handleSubmit(onSubmit)} {...restProps}>
 				<Row>
-					<Col xl={6} lg={12} md={12}>
+					<Col xl={6} lg={6} md={12}>
 						<InputLabel
 							label={clientLabel}
 							{...clientInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<SelectLabel
 							label={activeLabel}
 							{...activeInputProps}
@@ -322,7 +302,7 @@ const FormClient = ({
 							onChange={target => handleChange(target, setActive, 'active')}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<SelectLabel
 							label={groupLabel}
 							{...groupInputProps}
@@ -333,14 +313,14 @@ const FormClient = ({
 					</Col>
 				</Row>
 				<Row>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<InputLabel
 							label={corporateLabel}
 							{...corporateInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<SelectLabel
 							label={segmentLabel}
 							{...segmentInputProps}
@@ -349,7 +329,7 @@ const FormClient = ({
 							onChange={target => handleChange(target, setSegment, 'operating_seg')}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<SelectLabel
 							label={respLabel}
 							{...respInputProps}
@@ -358,7 +338,7 @@ const FormClient = ({
 							onChange={target => handleChange(target, setUser, 'commercial_resp')}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<SelectLabel
 							label={distLabel}
 							{...distInputProps}
@@ -369,14 +349,14 @@ const FormClient = ({
 					</Col>
 				</Row>
 				<Row>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<InputLabel
 							label={unidadeCLabel}
 							{...unidadeCInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<SelectAsyncLabel
 							label={stateLabel}
 							{...stateInputProps}
@@ -385,7 +365,7 @@ const FormClient = ({
 							onChange={target => handleChange(target, setStates, 'state')}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<InputLabel
 							label={cityLabel}
 							{...cityInputProps}
@@ -394,21 +374,21 @@ const FormClient = ({
 					</Col>
 				</Row>
 				<Row>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<InputLabel
 							label={CNPJLabel}
 							{...CNPJInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<InputLabel
 							label={incricaoLabel}
 							{...incricaoInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<InputLabel
 							label={ICMSLabel}
 							{...ICMSInputProps}
@@ -417,7 +397,7 @@ const FormClient = ({
 					</Col>
 				</Row>
 				<Row>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<SelectLabel
 							label={aproveitaLabel}
 							{...aproveitaInputProps}
@@ -427,7 +407,7 @@ const FormClient = ({
 						/>
 					</Col>
 					{aproCred && aproCred.selectedOption.id == 1 && (
-						<Col xl={3} lg={12} md={12}>
+						<Col xl={3} lg={3} md={12}>
 							<InputLabel
 								label={percenLaudoLabel}
 								{...percenLaudoInputProps}
@@ -435,25 +415,26 @@ const FormClient = ({
 							/>
 						</Col>
 					)}
-					<Col xl={3} lg={12} md={12}>
-						<DatePicker
+					<Col xl={3} lg={3} md={12}>
+						<InputLabel
+							type="date"
 							label={periodlastLaudoLabel}
-							selected={dtLaudo}
 							{...periodlastLaudoInputsProps}
-							onChange={event => handleDate(event, setDtLaudo, 'date_last_laudo')}
+							innerRef={register}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
-						<DatePicker
+					<Col xl={3} lg={3} md={12}>
+						<InputLabel
+							type="date"
 							label={periodMigrationLabel}
-							selected={dtMigration}
-							onChange={event => handleDate(event, setDtMigration, 'data_migration')}
+							{...periodMigrationInputsProps}
+							innerRef={register}
 						/>
 					</Col>
 
 				</Row>
 				<Row>
-					<Col xl={6} lg={12} md={12}>
+					<Col xl={6} lg={6} md={12}>
 						<SelectLabel
 							label={monitoramentoLabel}
 							{...monitoramentoInputProps}
@@ -462,7 +443,7 @@ const FormClient = ({
 							onChange={target => handleChange(target, setMonitoring, 'monitoring')}
 						/>
 					</Col>
-					<Col xl={6} lg={12} md={12}>
+					<Col xl={6} lg={6} md={12}>
 						<SelectLabel
 							label={statusMonitoramentoLabel}
 							{...statusMonitoramentoInputProps}
@@ -473,14 +454,14 @@ const FormClient = ({
 					</Col>
 				</Row>
 				<Row>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<InputLabel
 							label={currentAccountLabel}
 							{...currentAccountInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<SelectLabel
 							label={subGroupLabel}
 							{...subGroupInputProps}
@@ -489,7 +470,7 @@ const FormClient = ({
 							onChange={target => handleChange(target, setSubgroup, 'subgroup')}
 						/>
 					</Col>
-					<Col xl={2} lg={12} md={12}>
+					<Col xl={2} lg={2} md={12}>
 						<SelectLabel
 							label={tarifeLabel}
 							{...tarifeInputProps}
@@ -498,7 +479,7 @@ const FormClient = ({
 							onChange={target => handleChange(target, setTarife, 'tarife')}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<InputLabel
 							label={potenceTRLabel}
 							{...potenceTRInputProps}
@@ -507,7 +488,7 @@ const FormClient = ({
 					</Col>
 				</Row>
 				<Row>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<SelectLabel
 							label={geraPontLabel}
 							{...geraPontInputProps}
@@ -517,7 +498,7 @@ const FormClient = ({
 						/>
 					</Col>
 					{geradorPonta.selectedOption.id == 1 && (
-						<Col xl={3} lg={12} md={12}>
+						<Col xl={3} lg={3} md={12}>
 							<InputLabel
 								label={potenceGeraLabel}
 								{...potenceGeraInputProps}
@@ -525,7 +506,7 @@ const FormClient = ({
 							/>
 						</Col>
 					)}
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<SelectLabel
 							label={sazonalLabel}
 							{...sazonalInputProps}
@@ -534,7 +515,7 @@ const FormClient = ({
 							onChange={target => handleChange(target, setSazanol, 'sazonal')}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<SelectLabel
 							label={ruralLabel}
 							{...ruralInputProps}
@@ -545,7 +526,7 @@ const FormClient = ({
 					</Col>
 				</Row>
 				<Row>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<SelectLabel
 							label={bancosLabel}
 							{...bancosInputProps}
@@ -554,14 +535,14 @@ const FormClient = ({
 							onChange={target => handleChange(target, setBanco, 'banco')}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<InputLabel
 							label={agenciaLabel}
 							{...agenciaInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<InputLabel
 							label={contaLabel}
 							{...contaInputProps}
@@ -570,21 +551,21 @@ const FormClient = ({
 					</Col>
 				</Row>
 				<Row>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<InputLabel
 							label={agenteLabel}
 							{...agenteInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<InputLabel
 							label={perfilLabel}
 							{...perfilInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<InputLabel
 							label={cliqLabel}
 							{...cliqInputProps}
@@ -593,27 +574,27 @@ const FormClient = ({
 					</Col>
 				</Row>
 				<Row>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<InputLabel
 							label={numParcelaAtivoLabel}
 							{...numParcelaAtivoInputProps}
 							innerRef={register} />
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<InputLabel
 							label={parcelaAtivLabel}
 							{...parcelaAtivInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<InputLabel
 							label={pontoMedicaoLabel}
 							{...pontoMedicaoInputProps}
 							innerRef={register}
 						/>
 					</Col>
-					<Col xl={3} lg={12} md={12}>
+					<Col xl={3} lg={3} md={12}>
 						<InputLabel
 							label={nomeMedicaoLabel}
 							{...nomeMedicaoInputProps}
@@ -622,7 +603,7 @@ const FormClient = ({
 					</Col>
 				</Row>
 				<Row>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<SelectLabel
 							label={categoriaLabel}
 							{...categoriaInputProps}
@@ -631,7 +612,7 @@ const FormClient = ({
 							onChange={target => handleChange(target, setCategoria, 'categoria')}
 						/>
 					</Col>
-					<Col xl={4} lg={12} md={12}>
+					<Col xl={4} lg={4} md={12}>
 						<SelectLabel
 							label={subMercadoLabel}
 							{...subMercadoInputProps}
@@ -754,7 +735,6 @@ FormClient.defaultProps = {
 		name: 'commercial_resp',
 		id: 'commercial_resp',
 		placeholder: 'Responsável comercial',
-		required: true,
 	},
 	distLabel: 'Distribuidora',
 	distInputProps: {
@@ -793,12 +773,11 @@ FormClient.defaultProps = {
 		placeholder: 'Cidade',
 
 	},
-	incricaoLabel: 'Inscrição municipal',
+	incricaoLabel: 'Inscrição Estadual',
 	incricaoInputProps: {
 		name: 'subscriptionstate',
 		id: 'subscriptionstate',
-		placeholder: 'Inscrição municipal',
-
+		placeholder: 'Inscrição Estadual',
 	},
 	ICMSLabel: 'Alíquota ICMS',
 	ICMSInputProps: {
@@ -830,17 +809,15 @@ FormClient.defaultProps = {
 
 	},
 	periodlastLaudoLabel: 'Data ultimo laudo',
-	periodlastLaudoInputProps: {
+	periodlastLaudoInputsProps: {
 		name: 'date_last_laudo',
 		id: 'date_last_laudo',
-		required: true,
 
 	},
 	periodMigrationLabel: 'Data Migração',
-	periodMigrationInputProps: {
+	periodMigrationInputsProps: {
 		name: 'data_migration',
 		id: 'data_migration',
-		required: true,
 
 	},
 	monitoramentoLabel: 'Monitoramento',

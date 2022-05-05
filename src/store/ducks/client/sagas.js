@@ -21,7 +21,6 @@ export function* getClient(payload) {
 	yield put(apiActions.setQueryFilter(query));
 	try {
 		const response = yield call(clientApi.getClient, query);
-
 		yield put(actions.setClient(response.data.data));
 	} catch (error) {
 		yield put(

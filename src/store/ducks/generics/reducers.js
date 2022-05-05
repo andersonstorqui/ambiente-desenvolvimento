@@ -21,7 +21,7 @@ const initialState = {
 	carrier: [],
 	optionalsGrid: [],
 	isOpen: false,
-	state: [],
+	state: false,
 	city: []
 };
 

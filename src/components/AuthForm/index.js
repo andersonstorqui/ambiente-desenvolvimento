@@ -7,6 +7,8 @@ import {
 	Input,
 	InputGroup,
 	InputGroupAddon,
+	Row,
+	Col
 } from 'reactstrap';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { MdChevronRight, MdLock, MdPerson } from 'react-icons/md';
@@ -81,66 +83,81 @@ class AuthForm extends React.Component {
 		} = this.state;
 
 		return (
-			<Form onSubmit={e => this.handleSubmit(e, onSubmit)}>
-				{showLogo && (
-					<SourceLink >
-						<img src={R.images.logo_oficial} height="60" alt="" className="text-center"/>
-					</SourceLink>
-				)}
+			<Row>
 
-				<InputGroup>
-					<InputGroupAddon addonType="prepend" className="authInput">
-						<MdPerson color="#FF6F00" size={18} />
-					</InputGroupAddon>
-					<Input
-						{...usernameInputProps}
-						invalid={usernameInvalid}
-						onChange={this.handleChange}
-						value={username || ''}
-					/>
-					<FormFeedback className="ml-3">
-						{usernameInvalidMsg}
-					</FormFeedback>
-				</InputGroup>
+				<Col xl={6} lg={6} md={6} className='d-none d-md-block'>
+					<img src={R.images.banner_login} className='banner' />
+				</Col>
+				<Col xl={6} lg={6} md={12}>
+					<div className="container">
+						<div className="screen">
+							<div className="screen__content">
+								<Form onSubmit={e => this.handleSubmit(e, onSubmit)}>
+									{showLogo && (
+										<SourceLink >
+											<img src={R.images.logo_oficial} height="60" alt="" className="text-center" />
+										</SourceLink>
+									)}
 
-				<InputGroup>
-					<InputGroupAddon addonType="prepend">
-						<MdLock color="#FF6F00" size={15} />
-					</InputGroupAddon>
-					<Input
-						{...passwordInputProps}
-						onChange={this.handleChange}
-						invalid={passwordInvalid}
-						value={password || ''}
-					/>
-					<FormFeedback className="ml-3">
-						{passwordInvalidMsg}
-					</FormFeedback>
-				</InputGroup>
-				<Button
-					variant="outline-primary"
-					className="btn-login"
-					disabled={loading}
-					block
-					type="submit">
-					{!loading ? (
-						<div>
-							{R.strings.login.login}{' '}
-							<MdChevronRight size={25} className="float-right" />
+									<InputGroup>
+										<InputGroupAddon addonType="prepend" className="authInput">
+											<MdPerson color="#FF6F00" size={18} />
+										</InputGroupAddon>
+										<Input
+											{...usernameInputProps}
+											invalid={usernameInvalid}
+											onChange={this.handleChange}
+											value={username || ''}
+										/>
+										<FormFeedback className="ml-3">
+											{usernameInvalidMsg}
+										</FormFeedback>
+									</InputGroup>
+
+									<InputGroup>
+										<InputGroupAddon addonType="prepend">
+											<MdLock color="#FF6F00" size={15} />
+										</InputGroupAddon>
+										<Input
+											{...passwordInputProps}
+											onChange={this.handleChange}
+											invalid={passwordInvalid}
+											value={password || ''}
+										/>
+										<FormFeedback className="ml-3">
+											{passwordInvalidMsg}
+										</FormFeedback>
+									</InputGroup>
+									<Button
+										variant="outline-primary"
+										className="btn-login"
+										disabled={loading}
+										block
+										type="submit">
+										{!loading ? (
+											<div>
+												{R.strings.login.login}{' '}
+												<MdChevronRight size={25} className="float-right" />
+											</div>
+										) : (
+											<div>
+												{R.strings.login.login}
+												<ClipLoader
+													size={20}
+													color={R.colors.colorPrimary}
+													loading={loading}
+													className="float-right"
+												/>
+											</div>
+										)}
+									</Button>
+								</Form>
+							</div>
 						</div>
-					) : (
-						<div>
-							{R.strings.login.login}
-							<ClipLoader
-								size={20}
-								color={R.colors.colorPrimary}
-								loading={loading}
-								className="float-right"
-							/>
-						</div>
-					)}
-				</Button>
-			</Form>
+					</div>
+				</Col>
+			</Row>
+
 		);
 	}
 }
