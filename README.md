@@ -6,8 +6,11 @@
 
 ## Conexões
 
-SSH: A definir </br>
-Servidor: A definir </br>
+Servidor: AWS </br>
+> Conta: <b>modelovencedor</b></br>
+> User: <b>arturj******@hotmail.com</b>
+
+Publicado: http://ec2-18-231-51-148.sa-east-1.compute.amazonaws.com/ </br>
 
 ## Instalação Fonte
 
