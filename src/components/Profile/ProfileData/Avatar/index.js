@@ -5,7 +5,7 @@ import R from '../../../../lib/constants/R';
 import Avatar from '../../../Utils/Avatar';
 import { FileImg, Upload } from '../../../Utils';
 
-const AvatarProfile = ({ btnLabel, handleNavigation, handleUpload, uploadedFiles, ...restProps }) => (
+const AvatarProfile = ({ btnLabel,user, handleNavigation, handleUpload, uploadedFiles, ...restProps }) => (
 	<Row {...restProps} className="justify-content-center">
 
 		{uploadedFiles
@@ -13,6 +13,7 @@ const AvatarProfile = ({ btnLabel, handleNavigation, handleUpload, uploadedFiles
 				files={[uploadedFiles]}
 			//onDelete={onDelete}
 			/>
+			: user.img ? <Avatar size={150} src={`${process.env.REACT_APP_BASE_APP}${user.img}`} />
 			: <Avatar size={150} src={R.images.avatar} />
 		}
 		

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { navigate } from '../../lib/utils/navigation';
-import { merchantEnergyActions } from '../../store/actions';
+import { merchantEnergyActions, apiActions } from '../../store/actions';
 import { LoadingContent, Page } from '../../components/Utils/Page';
 import ActiveDeleteEdit from '../../components/Utils/TablesRow/ActiveDeleteEdit';
 import { ModalDelete } from '../../components/Utils/Modal';
@@ -57,6 +57,7 @@ class MerchantEnergy extends React.Component {
 			loading,
 			onGetList,
 			onDelete,
+			onClearQuery,
 			select
 		} = this.props;
 		const { columns } = this.state;
@@ -73,6 +74,10 @@ class MerchantEnergy extends React.Component {
 					handleNavigation={page => navigate(page)}
 					loadingFilter={loading}
 					onSubmitFilter={data => onGetList(data)}
+					cleanFilter={() => {
+						onClearQuery();
+						onGetList();
+					}}
 					/>
 					<ModalDelete
 						name={select ? select.merchant : ''}
@@ -95,12 +100,13 @@ const mapDispatchToProps = dispatch => ({
 	onSelect: query => dispatch(merchantEnergyActions.select(query)),
 	onActiveDesactiveMerchant: query => dispatch(merchantEnergyActions.activeOrDesactiveMerch(query)),
 	onDelete: query => dispatch(merchantEnergyActions.deleteOperatingMerch(query)),
-
+	onClearQuery: () => dispatch(apiActions.setQueryFilter('')),
 });
 
 MerchantEnergy.propTypes = {
 	onActiveDesactiveGroup: PropTypes.func.isRequired,
 	onGetList: PropTypes.func.isRequired,
+	onClearQuery: PropTypes.func.isRequired,
 	list: PropTypes.oneOfType([
 		PropTypes.bool,
 		PropTypes.arrayOf(PropTypes.object),

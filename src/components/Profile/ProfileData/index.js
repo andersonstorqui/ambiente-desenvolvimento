@@ -11,6 +11,7 @@ const ProfileScreen = ({ handleNavigation, user, onSubmit, handleUpload, uploade
 				<AvatarProfile
 					uploadedFiles={uploadedFiles}
 					handleUpload={handleUpload}
+					user={user}
 					handleNavigation={page => handleNavigation(page)}
 				/>
 			</Col>

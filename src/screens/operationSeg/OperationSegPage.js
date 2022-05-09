@@ -57,6 +57,7 @@ class OperationSegPage extends React.Component {
 			loading,
 			onGetList,
 			onDelete,
+			onClearQuery,
 			select
 		} = this.props;
 		const { columns } = this.state;
@@ -73,6 +74,10 @@ class OperationSegPage extends React.Component {
 					handleNavigation={page => navigate(page)}
 					loadingFilter={loading}
 					onSubmitFilter={data => onGetList(data)}
+					cleanFilter={() => {
+						onClearQuery();
+						onGetList();
+					}}
 					/>
 					<ModalDelete
 						name={select ? select.group : ''}
@@ -95,12 +100,13 @@ const mapDispatchToProps = dispatch => ({
 	onSelect: query => dispatch(operationSegActions.select(query)),
 	onActiveDesactiveSeg: query => dispatch(operationSegActions.activeOrDesactiveSeg(query)),
 	onDelete: query => dispatch(operationSegActions.deleteOperatingSegment(query)),
-
+	onClearQuery: () => dispatch(apiActions.setQueryFilter('')),
 });
 
 OperationSegPage.propTypes = {
 	onActiveDesactiveSeg: PropTypes.func.isRequired,
 	onGetList: PropTypes.func.isRequired,
+	onClearQuery: PropTypes.func.isRequired,
 	list: PropTypes.oneOfType([
 		PropTypes.bool,
 		PropTypes.arrayOf(PropTypes.object),

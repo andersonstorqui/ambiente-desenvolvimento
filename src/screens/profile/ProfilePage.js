@@ -24,34 +24,25 @@ class ProfilePage extends React.Component {
 	componentDidMount() { }
 
 	editUser = data => {
-		const { base64 } = this.state;
+		const { uploadedFiles} = this.state;
 		const { onUpdateProfile } = this.props;
-
-		if (base64) {
-			data.img = base64;
+		
+		if (uploadedFiles){
+			const upload = new FormData()
+			upload.append('file', uploadedFiles.file)
+			data.file = upload
 		}
 
 		onUpdateProfile(data)
 	}
 
-	handleUpload = update => {
-		const file = update[0];
-		getBase64(file)
-			.then((result) => {
-				this.setState({
-					base64: result,
-				});
-			})
-			.catch(err => {
-				console.log(err);
-			});
-
+	handleUpload = file => {
 		const filesUp = {
-			file,
+			file: file[0],
 			id: uniqueId(),
-			name: file.name,
-			readableSize: filesize(file.size),
-			preview: URL.createObjectURL(file),
+			name: file[0].name,
+			readableSize: filesize(file[0].size),
+			preview: URL.createObjectURL(file[0]),
 			progress: 0,
 			uploaded: false,
 			error: false,

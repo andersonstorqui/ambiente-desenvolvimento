@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { navigate } from '../../lib/utils/navigation';
-import { clientActions } from '../../store/actions';
+import { clientActions, apiActions } from '../../store/actions';
 import { LoadingContent, Page } from '../../components/Utils/Page';
 import ActiveDeleteEdit from '../../components/Utils/TablesRow/ActiveDeleteEdit';
 import { ModalDelete } from '../../components/Utils/Modal';
@@ -57,6 +57,7 @@ class ClientPage extends React.Component {
 			loading,
 			onGetList,
 			onDelete,
+			onClearQuery,
 			select
 		} = this.props;
 		const { columns } = this.state;
@@ -72,6 +73,10 @@ class ClientPage extends React.Component {
 					handleNavigation={page => navigate(page)}
 					loadingFilter={loading}
 					onSubmitFilter={data => onGetList(data)}
+					cleanFilter={() => {
+						onClearQuery();
+						onGetList();
+					}}
 					/>
 					<ModalDelete
 						name={select ? select.client : ''}
@@ -94,12 +99,13 @@ const mapDispatchToProps = dispatch => ({
 	onSelect: query => dispatch(clientActions.select(query)),
 	onActiveDesactiveClient: query => dispatch(clientActions.activeOrDesactiveClient(query)),
 	onDelete: query => dispatch(clientActions.deleteClient(query)),
-
+	onClearQuery: () => dispatch(apiActions.setQueryFilter('')),
 });
 
 ClientPage.propTypes = {
 	onActiveDesactiveClient: PropTypes.func.isRequired,
 	onGetList: PropTypes.func.isRequired,
+	onClearQuery: PropTypes.func.isRequired,
 	list: PropTypes.oneOfType([
 		PropTypes.bool,
 		PropTypes.arrayOf(PropTypes.object),

@@ -1,5 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import * as auth from '../../../api/authApi/auth';
+import * as generics from '../../../api/appApi/generics';
 import { navigate } from '../../../lib/utils/navigation';
 import R from '../../../lib/constants/R';
 import { notificationActions } from '../notification';
@@ -19,13 +20,15 @@ export function* login(payload) {
 			app: process.env.REACT_APP_APP_AUTH,
 		});
 
+		const responseImgProfile = yield call(generics.getImgProfile, response.data.user.id)
+
+		response.data.user.img = responseImgProfile.data.data[0].url
 		if (response.data.user) {
 			yield put(actions.setUser(response.data.user));
 			yield put(actions.setToken(response.data.token));
 
 			localStorage.setItem('token', JSON.stringify(response.data.token));
 			localStorage.setItem('user', JSON.stringify(response.data.user));
-
 			navigate('/');
 		}
 	} catch (error) {

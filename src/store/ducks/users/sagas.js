@@ -2,6 +2,7 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import * as users from '../../../api/authApi/users';
 import { navigate } from '../../../lib/utils/navigation';
 import * as groups from '../../../api/authApi/groups';
+import * as generics from '../../../api/appApi/generics';
 import { notificationActions } from '../notification';
 import * as actions from './actions';
 import * as selectors from './selectors';
@@ -264,10 +265,19 @@ export function* editUserProfile(payload) {
 
 	const user = yield select(authSelectors.getUser);
 
-	const { data } = payload;
+	const data = {
+		username: payload.data.username,
+		email: payload.data.email,
+		first_name: payload.data.first_name,
+		last_name: payload.data.last_name,
+	};
 
+	const imgProfile = payload.data.file
 	try {
 		const response = yield call(users.editUser, data, user.id);
+		const responseImgProfile = yield call(generics.setImgProfile, imgProfile, { id_user: user.id })
+
+		response.data.img = responseImgProfile.data.data[0].url
 
 		if (response.status) {
 			yield put(
