@@ -28,4 +28,4 @@ export const getState = () => api.get('/auxiliares/states');
 export const getCity = query => api.get('/auxiliares/city', {params: query});
 
 export const setImgProfile = (query, id) => api.post('/auxiliares/img-profile', query, {params: id});
-export const getImgProfile = query => api.get('/auxiliares/img-profile', query);
+export const getImgProfile = query => api.get('/auxiliares/img-profile', {params: query});

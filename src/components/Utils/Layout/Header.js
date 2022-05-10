@@ -159,7 +159,7 @@ class Header extends React.Component {
 							<Avatar
 								onClick={this.toggleUserCardPopover}
 								className="can-click mr-3"
-								src={`${process.env.REACT_APP_BASE_APP}${user.img}`}
+								src={user.img ? `${process.env.REACT_APP_BASE_APP}${user.img}` : R.images.logo_teste}
 							/>
 						</NavLink>
 						<Popover
@@ -175,7 +175,7 @@ class Header extends React.Component {
 										title={user.first_name}
 										subtitle={user.email}
 										className="border-light"
-										avatar={`${process.env.REACT_APP_BASE_APP}${user.img}`}>
+										avatar={user.img ? `${process.env.REACT_APP_BASE_APP}${user.img}` : R.images.logo_teste}>
 										<ListGroup flush>
 											<ListGroupItem
 												tag="button"

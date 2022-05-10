@@ -117,7 +117,7 @@ const FormClient = ({
 		}
 	};
 
-	
+
 	//VARS
 	const [active, setActive] = useState({ selectedOption: {} });
 	const [group, setGroup] = useState({ selectedOption: {} });
@@ -132,10 +132,11 @@ const FormClient = ({
 	const [sazonal, setSazanol] = useState({ selectedOption: {} });
 	const [rural, setRural] = useState({ selectedOption: {} });
 	const [categoria, setCategoria] = useState({ selectedOption: {} })
-	const [submercado, setSubmercado] = useState({ selectedOption: {} })
-	const [userCli, setUser] = useState({ selectedOption: {} })
-	const [banco, setBanco] = useState({ selectedOption: {} })
-	const [subgroup, setSubgroup] = useState({ selectedOption: {} })
+	const [submercado, setSubmercado] = useState({ selectedOption: {} });
+	const [userCli, setUser] = useState({ selectedOption: {} });
+	const [banco, setBanco] = useState({ selectedOption: {} });
+	const [subgroup, setSubgroup] = useState({ selectedOption: {} });
+	const [cityClient, setCity] = useState({ selectedOption: {} });
 
 	React.useEffect(() => {
 		//estado
@@ -254,8 +255,17 @@ const FormClient = ({
 			subgroup = subgroups.filter(index => index.id == list.subgroup)[0]
 			handleChange(subgroup, setSubgroup, 'subgroup')
 		}
-
 	}, [list])
+
+	React.useEffect(() => {
+		//city
+		let citySelected
+		if (list && list.city && city.length != 0) {
+			citySelected = city.filter(index => index.id == list.city)[0]
+			handleChange(citySelected, setCity, 'city')	
+		}
+	}, [city])
+
 
 	React.useEffect(() => {
 		handleChange({ id: true, name: 'Ativo' }, setActive, 'active')
@@ -279,7 +289,7 @@ const FormClient = ({
 		register({ name: 'tarife' });
 		register({ name: 'banco' });
 		register({ name: 'subgroup' });
-
+		register({ name: 'city' });
 	}, [register]);
 
 	return (
@@ -366,10 +376,13 @@ const FormClient = ({
 						/>
 					</Col>
 					<Col xl={4} lg={4} md={12}>
-						<InputLabel
+						<SelectAsyncLabel
 							label={cityLabel}
 							{...cityInputProps}
-							innerRef={register}
+							options={city}
+							value={cityClient.selectedOption}
+							onChange={target => handleChange(target, setCity, 'city')	
+						}
 						/>
 					</Col>
 				</Row>
