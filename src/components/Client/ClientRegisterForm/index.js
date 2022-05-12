@@ -262,7 +262,11 @@ const FormClient = ({
 		let citySelected
 		if (list && list.city && city.length != 0) {
 			citySelected = city.filter(index => index.id == list.city)[0]
-			handleChange(citySelected, setCity, 'city')	
+			if (citySelected) {
+				handleChange(citySelected, setCity, 'city')
+			}  else {
+				handleChange({}, setCity, 'city')
+			}
 		}
 	}, [city])
 
@@ -381,8 +385,8 @@ const FormClient = ({
 							{...cityInputProps}
 							options={city}
 							value={cityClient.selectedOption}
-							onChange={target => handleChange(target, setCity, 'city')	
-						}
+							onChange={target => handleChange(target, setCity, 'city')
+							}
 						/>
 					</Col>
 				</Row>

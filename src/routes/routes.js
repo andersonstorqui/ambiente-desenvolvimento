@@ -44,6 +44,9 @@ const ContractsRegisterPage = React.lazy(() => import('screens/contracts/Contrac
 const PricesPage = React.lazy(() => import('screens/prices/PricesPage'));
 const PricesPageRegisterPage = React.lazy(() => import('screens/prices/PricesRegisterPage'));
 
+const BondPage = React.lazy(() => import('screens/bondContractClient/BondPage'));
+const BondRegisterPage = React.lazy(() => import('screens/bondContractClient/BondRegisterPage'));
+
 const User = Authorize(false, ['USER']);
 
 const routes = [
@@ -301,6 +304,28 @@ const routes = [
 		component: User(PricesPageRegisterPage),
 		permission: true,
 		id: 149,
+	},
+	//BOND
+	{
+		path: '/bond',
+		name: 'vinculos',
+		component: User(BondPage),
+		permission: true,
+		id: 150,
+	},
+	{
+		path: '/bond/add',
+		name: 'bond add',
+		component: User(BondRegisterPage),
+		permission: true,
+		id: 150,
+	},
+	{
+		path: '/bond/editar/:id',
+		name: 'bond edit',
+		component: User(BondRegisterPage),
+		permission: true,
+		id: 150,
 	},
 ];
 

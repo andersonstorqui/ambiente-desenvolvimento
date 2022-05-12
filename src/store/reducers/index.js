@@ -15,6 +15,7 @@ import modulationReducer from '../ducks/modulation';
 import energyTypeReducer from '../ducks/energyType';
 import contractsReducer from '../ducks/contracts';
 import pricesReducer from '../ducks/prices';
+import bondContractClientReducer from '../ducks/bondContractClient';
 
 const rootReducer = combineReducers({
 	auth: authReducer,
@@ -32,7 +33,8 @@ const rootReducer = combineReducers({
 	modulation: modulationReducer,
 	energy: energyTypeReducer,
 	contracts: contractsReducer,
-	prices: pricesReducer
+	prices: pricesReducer,
+	bond: bondContractClientReducer
 });
 
 export default rootReducer;
