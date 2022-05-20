@@ -113,8 +113,7 @@ export const numberToPrice = v => {
 		.join('.')
 		.split('*')
 		.join(',');
-	console.log(typeof value)
-	return value;
+	return 'R$' + value;
 };
 
 export const priceToNumber = v => {

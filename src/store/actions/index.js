@@ -15,3 +15,4 @@ export { energyTypeActions } from '../ducks/energyType';
 export { contractsActions } from '../ducks/contracts';
 export { pricesActions } from '../ducks/prices';
 export { bondContractClientActions } from '../ducks/bondContractClient';
+export { amountActions } from '../ducks/Amounts';

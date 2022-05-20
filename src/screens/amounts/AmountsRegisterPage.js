@@ -1,17 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Form from '../../components/BondContractsClient/BondContractsClientForm';
+import Form from '../../components/Amounts/AmountsForm';
 import { navigateBack } from '../../lib/utils/navigation';
 import {
 	notificationActions,
+	amountActions,
 	bondContractClientActions,
-	contractsActions,
-	clientActions
+	clientActions,
 } from '../../store/actions';
 import { LoadingContent, Page } from '../../components/Utils/Page';
 import PropTypes from '../../lib/utils/propTypes';
 
-class BondPage extends React.Component {
+class AmountsRegisterPage extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -24,9 +24,8 @@ class BondPage extends React.Component {
 
 	async componentDidMount() {
 		const {
-			onGetBond,
+			onGetAmounts,
 			onGetClients,
-			onGetContract,
 			match,
 		} = this.props;
 
@@ -37,32 +36,36 @@ class BondPage extends React.Component {
 		});
 
 		if (id) {
-			await onGetBond({ id: id });
+			await onGetAmounts({ id: id });
 		}
 
 		await onGetClients();
-		await onGetContract();
 	}
 
 	onSubmit = data => {
-		const { onAddBond, onEditBond } = this.props;
+		const { onAddAmounts, onEditAmounts } = this.props;
 		const { id } = this.state;
 
 		if (id) {
-			onEditBond(data, id);
+			onEditAmounts(data, id);
 		} else {
-			onAddBond(data);
+			onAddAmounts(data);
 		}
 	};
 
-	render() {
-		const { id } = this.state;
+	getContract = id => {
+		const { onGetContract } = this.props;
+		onGetContract(id)
+	}
 
+	render() {
+		const { id, columns } = this.state;
 		const {
-			bond,
+			amounts,
 			loading,
 			contracts,
-			clients
+			clients,
+			months
 		} = this.props;
 
 		//CLIENT OPTIONS
@@ -73,25 +76,28 @@ class BondPage extends React.Component {
 		//CONTRACT OPTIONS
 		let contractOptions
 		if (contracts != false) {
-			contractOptions = contracts.map(index => ({ id: index.id, name: index.contracts_cod, data: index}))
+			contractOptions = contracts.map(index => ({ id: index.id_contract, name: index.contract_code}))
 		}
 		return (
 			<Page
 				className="user-register"
 				title={id ? 'Editar' : 'Adicionar'}
-				parentBreadcrumbs="Vínculos contratos e clientes"
-				pathParent="/Vínculos contratos e clientes"
+				parentBreadcrumbs="Montantes"
+				pathParent="/Montantes"
 				breadcrumbs={[
 					{
-						name: id ? 'Editar Vínculos contratos e clientes' : 'Adicionar Vínculos contratos e clientes',
+						name: id ? 'Editar Montantes' : 'Adicionar Montantes',
 						active: true,
 					},
 				]}>
-				<LoadingContent loading={id ? !bond : loading}>
+				<LoadingContent loading={id ? !amounts : loading}>
 					<Form
-						list={bond[0]}
+						columns={columns}
+						list={amounts[0]}
+						months={months}
+						getContract={id => this.getContract(id)}
 						clientOptions={clientOptions || [0]}
-						contractOptions={contractOptions || [0]}
+						contractOptions={contractOptions || []}
 						onSubmit={data => this.onSubmit(data)}
 						handleNavigation={() => navigateBack()}
 					/>
@@ -104,33 +110,33 @@ class BondPage extends React.Component {
 const mapStateToProps = state => {
 	return {
 		loading: state.api.loading,
-		bond: state.bond.list,
-		contracts: state.contracts.list,
+		amounts: state.amounts.list,
+		contracts: state.bond.list,
 		clients: state.client.list,
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onGetBond: id => dispatch(bondContractClientActions.getBondContractClient(id)),
+		onGetAmounts: id => dispatch(amountActions.getAmounts(id)),
 		onAddNotification: (message, level) =>
 			dispatch(notificationActions.addNotification(message, level)),
-		onAddBond: data => dispatch(bondContractClientActions.insertBondContractClient(data)),
-		onEditBond: (data, id) => dispatch(bondContractClientActions.updateBondContractClient(data, id)),
-		onGetContract: query => dispatch(contractsActions.getContracts(query)),
+		onAddAmounts: data => dispatch(amountActions.insertAmounts(data)),
+		onEditAmounts: (data, id) => dispatch(amountActions.updateAmounts(data, id)),
+		onGetContract: query => dispatch(bondContractClientActions.getBondContractClient(query)),
 		onGetClients: query => dispatch(clientActions.getClient(query)),
 	};
 };
 
-BondPage.propTypes = {
+AmountsRegisterPage.propTypes = {
 	onAddNotification: PropTypes.func.isRequired,
-	onAddBond: PropTypes.func.isRequired,
-	onEditBond: PropTypes.func.isRequired,
-	onGetBond: PropTypes.func.isRequired,
+	onAddAmounts: PropTypes.func.isRequired,
+	onEditAmounts: PropTypes.func.isRequired,
+	onGetAmounts: PropTypes.func.isRequired,
 	loading: PropTypes.bool.isRequired,
 	match: PropTypes.shape({
 		params: PropTypes.shape({ id: PropTypes.string }),
 	}).isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BondPage);
+export default connect(mapStateToProps, mapDispatchToProps)(AmountsRegisterPage);

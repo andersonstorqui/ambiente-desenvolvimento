@@ -44,7 +44,7 @@ class Dashboard extends React.Component {
         return (
             <>
                 <img src={R.images.welcome} className='banner' />
-                <Row>
+                {/* <Row>
                     <Col xl={4} lg={4} md={4}>
                         <Card>
                             <div className="text-success" >
@@ -101,7 +101,7 @@ class Dashboard extends React.Component {
                             <p>Pedidos</p>
                         </Card>
                     </Col>
-                </Row>
+                </Row> */}
 
             </>
         );

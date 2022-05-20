@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { navigate } from '../../lib/utils/navigation';
-import { pricesActions } from '../../store/actions';
+import { pricesActions, clientActions, contractsActions } from '../../store/actions';
 import { LoadingContent, Page } from '../../components/Utils/Page';
 import ActiveDeleteEdit from '../../components/Utils/TablesRow/ActiveDeleteEdit';
 import { ModalDelete } from '../../components/Utils/Modal';
 import PropTypes from '../../lib/utils/propTypes';
 import PricesList from '../../components/Prices/PricesList';
+import {numberToPrice} from '../../lib/utils/functions';
 
 class PricesPage extends React.Component {
 	constructor(props) {
@@ -23,16 +24,30 @@ class PricesPage extends React.Component {
 					width: '15%',
 				},
 				{
+					name: 'Cliente',
+					selector: 'cliente_name',
+					sortable: true,
+					width: '20%',
+				},
+				{
+					name: 'Contrato',
+					selector: 'cod_contract_number',
+					sortable: true,
+					width: '20%',
+				},
+				{
 					name: 'Preço Base',
 					selector: 'price_base',
+					cell: row => row.price_base ? numberToPrice(row.price_base) : null,
 					sortable: true,
-					width: '35%',
+					width: '15%',
 				},
 				{
 					name: 'Preço Reajuste',
 					selector: 'price_reajust',
+					cell: row => row.price_reajust ? numberToPrice(row.price_reajust) : null,
 					sortable: true,
-					width: '35%',
+					width: '15%',
 				},
 				{
 					name: 'Ações',
@@ -53,7 +68,11 @@ class PricesPage extends React.Component {
 	}
 
 	async componentDidMount() {
-		const { onGetList } = this.props;
+		const { onGetList, onGetClient, onGetContracts } = this.props;
+
+		await onGetClient();
+		await onGetContracts({ active: true });
+
 		await onGetList('active=true');
 	}
 
@@ -63,9 +82,23 @@ class PricesPage extends React.Component {
 			loading,
 			onGetList,
 			onDelete,
-			select
+			select,
+			client,
+			contracts
 		} = this.props;
 		const { columns } = this.state;
+
+		//CLIENTES
+		let clientOptions
+		if (client != false) {
+			clientOptions = client.map(index => ({ id: index.id, name: index.client }))
+		}
+
+		//CONTRACTS
+		let contractsOptions
+		if (contracts != false) {
+			contractsOptions = contracts.map(index => ({ id: index.id, name: index.contracts_cod }))
+		}
 
 		return (
 			<Page
@@ -76,6 +109,8 @@ class PricesPage extends React.Component {
 					<PricesList
 					data={list || []}
 					columns={columns}
+					clientOptions={clientOptions}
+					contractsOptions={contractsOptions}
 					handleNavigation={page => navigate(page)}
 					loadingFilter={loading}
 					onSubmitFilter={data => onGetList(data)}
@@ -93,7 +128,9 @@ class PricesPage extends React.Component {
 const mapStateToProps = state => ({
 	list: state.prices.list,
 	loading: state.api.loading,
-	select: state.prices.select
+	select: state.prices.select,
+	contracts: state.contracts.list,
+	client: state.client.list,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -101,7 +138,8 @@ const mapDispatchToProps = dispatch => ({
 	onSelect: query => dispatch(pricesActions.select(query)),
 	onActiveDesactivePrice: query => dispatch(pricesActions.activeOrDesactivePrices(query)),
 	onDelete: query => dispatch(pricesActions.deletePrices(query)),
-
+	onGetClient: id => dispatch(clientActions.getClient(id)),
+	onGetContracts: id => dispatch(contractsActions.getContracts(id)),
 });
 
 PricesPage.propTypes = {

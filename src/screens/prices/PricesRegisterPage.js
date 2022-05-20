@@ -6,7 +6,7 @@ import {
 	notificationActions,
 	pricesActions,
 	clientActions,
-	contractsActions
+	bondContractClientActions
 } from '../../store/actions';
 import { LoadingContent, Page } from '../../components/Utils/Page';
 import PropTypes from '../../lib/utils/propTypes';
@@ -27,7 +27,6 @@ class PricesRegisterPage extends React.Component {
 			onGetList,
 			match,
 			onGetClient,
-			onGetContracts
 		} = this.props;
 
 		const { id } = match.params;
@@ -37,8 +36,7 @@ class PricesRegisterPage extends React.Component {
 		});
 
 		await onGetClient();
-		await onGetContracts({ active: true });
-
+		
 		if (id) {
 			await onGetList({id: id});
 		}
@@ -54,6 +52,11 @@ class PricesRegisterPage extends React.Component {
 			onAddPrices(data);
 		}
 	};
+
+	getContract = id => {
+		const { onGetContracts } = this.props;
+		onGetContracts(id)
+	}
 
 	render() {
 		const { id } = this.state;
@@ -74,7 +77,7 @@ class PricesRegisterPage extends React.Component {
 		//CONTRACTS
 		let contractsOptions
 		if (contracts != false) {
-			contractsOptions = contracts.map(index => ({ id: index.id, name: index.contracts_cod }))
+			contractsOptions = contracts.map(index => ({ id: index.id_contract, name: index.contract_code }))
 		}
 
 		return (
@@ -89,11 +92,12 @@ class PricesRegisterPage extends React.Component {
 						active: true,
 					},
 				]}>
-				<LoadingContent loading={id ? !prices || !client || !contracts : loading}>
+				<LoadingContent loading={id ? !prices || !client : loading}>
 					<Form
 						list={prices[0]}
 						client={clientOptions || []}
 						contracts={contractsOptions || []}
+						getContract={id => this.getContract(id)}
 						onSubmit={data => this.onSubmit(data)}
 						handleNavigation={() => navigateBack()}
 					/>
@@ -107,7 +111,7 @@ const mapStateToProps = state => {
 	return {
 		loading: state.api.loading,
 		prices: state.prices.list,
-		contracts: state.contracts.list,
+		contracts: state.bond.list,
 		client: state.client.list,
 	};
 };
@@ -120,7 +124,7 @@ const mapDispatchToProps = dispatch => {
 		onAddPrices: data => dispatch(pricesActions.insertPrices(data)),
 		onEditPrices: (data, id) => dispatch(pricesActions.updatePrices(data, id)),
 		onGetClient: id => dispatch(clientActions.getClient(id)),
-		onGetContracts: id => dispatch(contractsActions.getContracts(id)),
+		onGetContracts: id => dispatch(bondContractClientActions.getBondContractClient(id)),
 	};
 };
 

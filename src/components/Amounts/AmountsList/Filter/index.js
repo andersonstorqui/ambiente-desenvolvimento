@@ -6,33 +6,36 @@ import { ButtonsFilter, CollapseFilter } from '../../../Utils/Filter';
 import { removeEmpty } from '../../../../lib/utils/functions';
 import { statusList } from '../../../../lib/utils/selects';
 import PropTypes from '../../../../lib/utils/propTypes';
+import { func } from 'prop-types';
 
-const FilterPrices = ({
+const FilterBond = ({
 	clientLabel,
 	clientInputProps,
-	contractLabel,
-	contractInputProps,
 	onSubmit,
 	clearQuery,
 	companies,
 	statusLabel,
 	statusInputProps,
-	clientOptions,
-	contractsOptions,
+	client,
 	...restProps
 }) => {
 	const { register, handleSubmit, setValue } = useForm({
 		defaultValues: { active: 'true' },
 	});
 
-	const [value, setReactSelectValue] = useState({ selectedOption: [] });
-	const [client, setClient] = useState({ selectedOption: {}});
-	const [contract, setContract] = useState({ selectedOption: {}});
 
+	const [value, setReactSelectValue] = useState({ selectedOption: [] });
+	const [status, setStatus] = useState({ selectedOption: statusList[1] });
+	const [clientOption, setClient] = useState({ selectedOption: {}});
 	const onSubmitForm = data => {
 		let values = data;
 		values = removeEmpty(values);
 		onSubmit(values);
+	};
+
+	const handleChangeStatus = selectedOption => {
+		setValue('active', selectedOption.id);
+		setStatus({ selectedOption });
 	};
 
 	const handleOptions = (selectedOption, func, value) => {
@@ -41,15 +44,13 @@ const FilterPrices = ({
 	}
 
 	React.useEffect(() => {
+		register({ name: 'active' });
 		register({ name: 'client' });
-		register({ name: 'contract' });
 	}, [register]);
 
 	const clear = () => {
-		setValue('client', false);
-		setValue('contract', false);
-		setClient({ selectedOption: {} });
-		setContract({ selectedOption: {} });
+		setValue('active', statusList[1].id);
+		setStatus({ selectedOption: statusList[1] });
 		setReactSelectValue({ selectedOption: [] });
 		clearQuery();
 	};
@@ -63,18 +64,18 @@ const FilterPrices = ({
 							<SelectLabel
 								label={clientLabel}
 								{...clientInputProps}
-								options={clientOptions}
+								options={client}
 								onChange={target => handleOptions(target, setClient, 'client')}
-								value={client.selectedOption}
+								value={clientOption.selectedOption}
 							/>
 						</Col>
 						<Col xl={6} lg={12} md={12}>
 							<SelectLabel
-								label={contractLabel}
-								{...contractInputProps}
-								options={contractsOptions}
-								onChange={target => handleOptions(target, setContract, 'contract')}
-								value={contract.selectedOption}
+								label={statusLabel}
+								{...statusInputProps}
+								options={statusList}
+								onChange={handleChangeStatus}
+								value={status.selectedOption}
 							/>
 						</Col>
 					</Row>
@@ -85,29 +86,21 @@ const FilterPrices = ({
 	);
 };
 
-FilterPrices.propTypes = {
+FilterBond.propTypes = {
 	clientLabel: PropTypes.string,
 	clientInputProps: PropTypes.shape({}),
-	contractLabel: PropTypes.string,
-	contractInputProps: PropTypes.shape({}),
 	statusLabel: PropTypes.string,
 	statusInputProps: PropTypes.shape({}),
 	onSubmit: PropTypes.func.isRequired,
 	clearQuery: PropTypes.func.isRequired,
 };
 
-FilterPrices.defaultProps = {
+FilterBond.defaultProps = {
 	clientLabel: 'Cliente',
 	clientInputProps: {
 		name: 'client',
 		id: 'client',
-		placeholder: 'Client',
-	},
-	contractLabel: 'Contrato',
-	contractInputProps: {
-		name: 'contract',
-		id: 'contract',
-		placeholder: 'Contrato',
+		placeholder: 'Cliente',
 	},
 	statusLabel: 'Status',
 	statusInputProps: {
@@ -117,4 +110,4 @@ FilterPrices.defaultProps = {
 	},
 };
 
-export default FilterPrices;
+export default FilterBond;

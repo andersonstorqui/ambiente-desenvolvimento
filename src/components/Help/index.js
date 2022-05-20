@@ -9,7 +9,7 @@ const HelpInfo = ({ ...restProps }) => (
 				Encontrou algum problema no sistema ou está com alguma dúvida?
 				Entre em contato pelo email abaixo com nossa equipe.
 			</Typography>
-			<Typography type="p">suporte@sagasistemas.com.br</Typography>
+			<Typography type="p">contato@modelovencedor.com.br</Typography>
 		</CardBody>
 	</Card>
 );

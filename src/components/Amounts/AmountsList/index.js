@@ -4,8 +4,9 @@ import { Fab } from 'react-tiny-fab';
 import { MdAdd } from 'react-icons/md';
 import Filter from './Filter';
 import DataTable from '../../Utils/DataTable';
+import R from '../../../lib/constants/R';
 
-class PricesList extends React.Component {
+class BondList extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -21,8 +22,7 @@ class PricesList extends React.Component {
 			cleanFilter,
 			loadingFilter,
 			companies,
-			clientOptions,
-			contractsOptions
+			client
 		} = this.props;
 
 		const { resetPaginationToggle } = this.state;
@@ -38,8 +38,7 @@ class PricesList extends React.Component {
 					}}
 					clearQuery={() => cleanFilter()}
 					companies={companies}
-					contractsOptions={contractsOptions}
-					clientOptions={clientOptions}
+					client={client}
 				/>
 				<DataTable
 					loading={loadingFilter}
@@ -55,15 +54,15 @@ class PricesList extends React.Component {
 					position={{ bottom: 15, right: 0 }}
 					event="click"
 					icon={<MdAdd />}
-					onClick={() => handleNavigation('/prices/add')}
-					text="Adicionar Preços"
+					onClick={() => handleNavigation('/amounts/add')}
+					text="Adicionar Montante"
 				/>
 			</div>
 		);
 	}
 }
 
-PricesList.propTypes = {
+BondList.propTypes = {
 	handleNavigation: PropTypes.func.isRequired,
 	data: PropTypes.arrayOf(PropTypes.object).isRequired,
 	columns: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -73,6 +72,6 @@ PricesList.propTypes = {
 	loadingFilter: PropTypes.bool.isRequired,
 };
 
-PricesList.defaultProps = {};
+BondList.defaultProps = {};
 
-export default PricesList;
+export default BondList;

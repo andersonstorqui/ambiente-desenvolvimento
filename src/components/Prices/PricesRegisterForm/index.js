@@ -27,6 +27,7 @@ const FormPrices = ({
 	handleNavigation,
 	btnLabelCancel,
 	btnLabelSubmit,
+	getContract,
 	...restProps
 }) => {
 	const { register, handleSubmit, setValue } = useForm({
@@ -37,6 +38,9 @@ const FormPrices = ({
 	const handleChange = (selectedOption, func, value) => {
 		setValue(value, selectedOption.id);
 		func({ selectedOption });
+		if (value == 'cliente') {
+			getContract({ client: selectedOption.id })
+		}
 	};
 
 	//VARS
@@ -55,16 +59,14 @@ const FormPrices = ({
 			handleChange(status, setActive, 'active')
 		}
 		//clientes
-		let clientes
 		if (list && list.cliente) {
-			clientes = client.filter(cliente => cliente.id == list.cliente)[0]
-			handleChange(client, setClientPerfil, 'cliente')
+			console.log(list)
+			handleChange({ id: list.cliente, name: `${list.cliente_name}` }, setClientPerfil, 'cliente')
 		}
+
 		//contrato
-		let contratos
 		if (list && list.cod_contract) {
-			contratos = contracts.filter(contracts => contracts.id)[0]
-			handleChange(contratos, setContractCode, 'cod_contract')
+			handleChange({ id: list.cod_contract, name: list.cod_contract_number }, setContractCode, 'cod_contract')
 		}
 	}, [list])
 
