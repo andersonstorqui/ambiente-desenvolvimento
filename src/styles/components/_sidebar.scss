@@ -43,8 +43,8 @@
 	&::after {
 		z-index: 3;
 		// sublime light
-		background: theme-color('primary'); /* fallback for old browsers */
-		background: white;
+		// background: theme-color('primary'); /* fallback for old browsers */
+		background: linear-gradient(to right, rgb(35, 37, 38), rgb(65, 67, 69));
 		opacity: 1;
 	}
 
@@ -58,11 +58,11 @@
 	
 
 	&__menu{
-		color: #FF6F00;
+		color: #F2F2F2;
 		border: none;
 		&:hover {
-			background: #FF6F00;
-			color: white;
+			background: #F2F2F2;
+			color: #414345;
 		}
 	}
 	
@@ -154,9 +154,9 @@
 
 
 			&:hover {
-				background: rgba(248, 107, 25, 0.2);
+				background: rgba(238, 242, 243,.4);
 				border-radius: 10px;
-				color: #FF6F00;
+				color: #F2F2F2;
 				font-weight: 600;
 
 			}

@@ -1,7 +1,7 @@
 @import "../login-colors";
 
 #login-page  {
-    background: linear-gradient(to right, rgb(171, 186, 171), rgb(255, 255, 255));;	
+    background: linear-gradient(to right, rgb(35, 37, 38), rgb(65, 67, 69));	
     height: 100vh;
     overflow: hidden;
     .banner{
@@ -66,7 +66,7 @@
                         padding: 20px 0px;	
                         position: relative;	
                         background: rgba(201, 76, 76, 0.0);
-                        color: black;
+                        color: #F2F2F2;
                         width: 95%;
                         .invalid-feedback{
                             position: absolute;
@@ -75,14 +75,15 @@
                     }
                     input{
                         border: none;
-                        border-bottom: 2px solid #FF6F00;
+                        color: #F2F2F2;
+                        border-bottom: 2px solid #F2F2F2;
                         background: rgba(201, 76, 76, 0.0);
                         padding: 10px;
                         padding-left: 24px;
                         font-weight: 700;
                         transition: .2s;
                         &:active, &:focus, &:hover{
-                            background: rgba(201, 76, 76, 0.0);
+                            background: rgba(255, 255, 255, 0.1);
                             box-shadow: none;
                         }
                     }  

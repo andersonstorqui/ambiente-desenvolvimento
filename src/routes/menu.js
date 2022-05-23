@@ -18,94 +18,10 @@ export const navAux = [
 		name: 'Usuários',
 		exact: false,
 		IconSub: FaUserAlt,
-		id: 138,
+		id: 152,
 	},
 
 ];
-
-export const navApp = [
-	{
-		to: '/client',
-		name: 'Cliente',
-		exact: false,
-		IconSub: MdOutlinePersonPinCircle,
-		id: 141
-	},
-	{
-		to: '/business-group',
-		name: 'Grupo empresarial',
-		exact: false,
-		IconSub: MdBusiness,
-		id: 142
-	},
-	{
-		to: '/operation-segment',
-		name: 'Segmento de atuação',
-		exact: false,
-		IconSub: MdSegment,
-		id: 143
-	},
-	{
-		to: '/dist',
-		name: 'Distribuidora',
-		exact: false,
-		IconSub: MdOutlineVerticalDistribute,
-		id: 144
-	},
-	{
-		to: '/merchant',
-		name: 'Comercializador de energia',
-		exact: false,
-		IconSub: FaSuitcase,
-		id: 145
-	},
-	{
-		to: '/modulation',
-		name: 'Modulação',
-		exact: false,
-		IconSub: MdViewModule,
-		id: 146
-	},
-	{
-		to: '/energy-types',
-		name: 'Tipos de energia',
-		exact: false,
-		IconSub: BsFillLightningChargeFill,
-		id: 147
-	},
-	{
-		to: '/contracts',
-		name: 'Contratos',
-		exact: false,
-		IconSub: FaFileContract,
-		id: 148
-	},
-	{
-		to: '/prices',
-		name: 'Preços',
-		exact: false,
-		IconSub: RiPriceTag3Fill,
-		id: 149
-	},
-	{
-		to: '/bond',
-		name: 'Vinculos Contratos e Clientes',
-		exact: false,
-		IconSub: MdOutlineOutbond,
-		id: 150
-	},
-	{
-		to: '/amounts',
-		name: 'Montantes',
-		exact: false,
-		IconSub: FaMountain,
-		id: 151
-	}
-]
-
-
-
-
 
 export const routes = [
 	{
@@ -113,10 +29,4 @@ export const routes = [
 		icon: MdBuild,
 		submodules: navAux,
 	},
-
-	{
-		name: 'Aplicações',
-		icon: MdApps,
-		submodules: navApp
-	}
 ];

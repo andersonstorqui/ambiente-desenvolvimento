@@ -101,7 +101,7 @@ class AuthForm extends React.Component {
 
 									<InputGroup>
 										<InputGroupAddon addonType="prepend" className="authInput">
-											<MdPerson color="#FF6F00" size={18} />
+											<MdPerson color="#F2F2F2" size={18} />
 										</InputGroupAddon>
 										<Input
 											{...usernameInputProps}
@@ -116,7 +116,7 @@ class AuthForm extends React.Component {
 
 									<InputGroup>
 										<InputGroupAddon addonType="prepend">
-											<MdLock color="#FF6F00" size={15} />
+											<MdLock color="#F2F2F2" size={15} />
 										</InputGroupAddon>
 										<Input
 											{...passwordInputProps}

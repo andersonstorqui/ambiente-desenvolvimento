@@ -27,15 +27,6 @@ export function* login(payload) {
 			yield put(actions.setToken(response.data.token));
 			localStorage.setItem('user', JSON.stringify(response.data.user));
 			localStorage.setItem('token', JSON.stringify(response.data.token));
-
-			const responseImgProfile = yield call(generics.getImgProfile, { id_user: response.data.user.id })
-
-			if (responseImgProfile.data.data[0]) {
-				response.data.user.img = responseImgProfile.data.data[0].url
-				localStorage.removeItem('user');
-				localStorage.setItem('user', JSON.stringify(response.data.user));
-			}
-
 			navigate('/')
 		}
 	} catch (error) {
