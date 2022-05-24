@@ -51,29 +51,30 @@ const routes = [
 		name: 'Users',
 		component: User(UsersPage),
 		permission: true,
-		id: 152,
+		id: 154,
 	},
 	{
 		path: '/usuarios/adicionar',
 		name: 'UserRegister',
 		component: User(UserRegisterPage),
 		permission: true,
-		id: 152,
+		id: 154,
 	},
 	{
 		path: '/usuarios/editar/:id',
 		name: 'UserEdit',
 		component: User(UserRegisterPage),
 		permission: true,
-		id: 152,
+		id: 154,
 	},
 	{
 		path: '/usuarios/permissoes',
 		name: 'UserPermissions',
 		component: User(UserPermissionsPage),
 		permission: true,
-		id: 152,
+		id: 154,
 	},
+
 ];
 
 export default routes;

@@ -18,10 +18,10 @@ export const navAux = [
 		name: 'Usuários',
 		exact: false,
 		IconSub: FaUserAlt,
-		id: 152,
+		id: 154,
 	},
-
 ];
+
 
 export const routes = [
 	{
