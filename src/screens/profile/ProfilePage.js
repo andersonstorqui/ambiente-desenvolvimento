@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import Page from '../../components/Utils/Page/Page';
 import PropTypes from '../../lib/utils/propTypes';
 import Profile from '../../components/Profile/ProfileData';
-import { navigate } from '../../lib/utils/navigation';
 import { uniqueId } from 'lodash';
 import filesize from 'filesize';
-import { getBase64 } from '../../lib/utils/functions'
+import { navigate } from '../../lib/utils/navigation';
+import { getBase64 } from '../../lib/utils/functions';
 
 import { usersActions } from '../../store/actions';
 
@@ -16,25 +16,24 @@ class ProfilePage extends React.Component {
 
 		this.state = {
 			uploadedFiles: false,
-			base64: false
+			base64: false,
 		};
-
 	}
 
-	componentDidMount() { }
+	componentDidMount() {}
 
 	editUser = data => {
-		const { uploadedFiles} = this.state;
+		const { uploadedFiles } = this.state;
 		const { onUpdateProfile } = this.props;
-		
-		if (uploadedFiles){
-			const upload = new FormData()
-			upload.append('file', uploadedFiles.file)
-			data.file = upload
+
+		if (uploadedFiles) {
+			const upload = new FormData();
+			upload.append('file', uploadedFiles.file);
+			this.data.file = upload;
 		}
 
-		onUpdateProfile(data)
-	}
+		onUpdateProfile(data);
+	};
 
 	handleUpload = file => {
 		const filesUp = {
@@ -52,11 +51,10 @@ class ProfilePage extends React.Component {
 		this.setState({
 			uploadedFiles: filesUp,
 		});
-
 	};
 
 	render() {
-		const { user, onUpdateProfile } = this.props;
+		const { user /*onUpdateProfile*/ } = this.props;
 		const { uploadedFiles } = this.state;
 
 		return (

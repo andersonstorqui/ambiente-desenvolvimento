@@ -2,21 +2,20 @@ import React from 'react';
 import Authorize from './Authorize';
 
 const DashboardPage = React.lazy(() =>
-	import('screens/dashboard/DashboardPage'),
+	import('../screens/dashboard/DashboardPage'),
 );
-const ProfilePage = React.lazy(() => import('screens/profile/ProfilePage'));
+const ProfilePage = React.lazy(() => import('../screens/profile/ProfilePage'));
 const ChangePasswordPage = React.lazy(() =>
-	import('screens/profile/ChangePasswordPage'),
+	import('../screens/profile/ChangePasswordPage'),
 );
-const UsersPage = React.lazy(() => import('screens/users/UsersPage'));
+const UsersPage = React.lazy(() => import('../screens/users/UsersPage'));
 const UserRegisterPage = React.lazy(() =>
-	import('screens/users/UserRegisterPage'),
+	import('../screens/users/UserRegisterPage'),
 );
 const UserPermissionsPage = React.lazy(() =>
-	import('screens/users/UserPermissionsPage'),
+	import('../screens/users/UserPermissionsPage'),
 );
-const HelpPage = React.lazy(() => import('screens/help/HelpPage'));
-
+const HelpPage = React.lazy(() => import('../screens/help/HelpPage'));
 
 const User = Authorize(false, ['USER']);
 
@@ -74,7 +73,14 @@ const routes = [
 		permission: true,
 		id: 154,
 	},
-
+	// CLIENTE
+	{
+		path: '/client',
+		name: 'UserPermissions',
+		component: User(UserPermissionsPage),
+		permission: true,
+		id: 157,
+	},
 ];
 
 export default routes;

@@ -129,7 +129,7 @@ export const priceToNumber = v => {
 export const getBase64 = file => {
 	return new Promise(resolve => {
 		let fileInfo;
-		let baseURL = "";
+		let baseURL = '';
 		// Make new FileReader
 		let reader = new FileReader();
 
@@ -139,7 +139,7 @@ export const getBase64 = file => {
 		// on reader load somthing...
 		reader.onload = () => {
 			// Make a fileInfo Object
-			
+
 			baseURL = reader.result;
 			resolve(baseURL);
 		};
@@ -150,76 +150,85 @@ export const getRandomColor = () => {
 	const letters = '0123456789ABCDEF';
 	let color = {};
 	color = {
-        aqua: "#00ffff",
-        azure: "#f0ffff",
-        beige: "#f5f5dc",
-        black: "#000000",
-        blue: "#0000ff",
-        brown: "#a52a2a",
-        cyan: "#00ffff",
-        darkblue: "#00008b",
-        darkcyan: "#008b8b",
-        darkgrey: "#a9a9a9",
-        darkgreen: "#006400",
-        darkkhaki: "#bdb76b",
-        darkmagenta: "#8b008b",
-        darkolivegreen: "#556b2f",
-        darkorange: "#ff8c00",
-        darkorchid: "#9932cc",
-        darkred: "#8b0000",
-        darksalmon: "#e9967a",
-        darkviolet: "#9400d3",
-        fuchsia: "#ff00ff",
-        gold: "#ffd700",
-        green: "#008000",
-        indigo: "#4b0082",
-        khaki: "#f0e68c",
-        lightblue: "#add8e6",
-        lightcyan: "#e0ffff",
-        lightgreen: "#90ee90",
-        lightgrey: "#d3d3d3",
-        lightpink: "#ffb6c1",
-        lightyellow: "#ffffe0",
-        lime: "#00ff00",
-        magenta: "#ff00ff",
-        maroon: "#800000",
-        navy: "#000080",
-        olive: "#808000",
-        orange: "#ffa500",
-        pink: "#ffc0cb",
-        purple: "#800080",
-        violet: "#800080",
-        red: "#ff0000",
-        silver: "#c0c0c0",
-        white: "#ffffff",
-        yellow: "#ffff00"
-    };
+		aqua: '#00ffff',
+		azure: '#f0ffff',
+		beige: '#f5f5dc',
+		black: '#000000',
+		blue: '#0000ff',
+		brown: '#a52a2a',
+		cyan: '#00ffff',
+		darkblue: '#00008b',
+		darkcyan: '#008b8b',
+		darkgrey: '#a9a9a9',
+		darkgreen: '#006400',
+		darkkhaki: '#bdb76b',
+		darkmagenta: '#8b008b',
+		darkolivegreen: '#556b2f',
+		darkorange: '#ff8c00',
+		darkorchid: '#9932cc',
+		darkred: '#8b0000',
+		darksalmon: '#e9967a',
+		darkviolet: '#9400d3',
+		fuchsia: '#ff00ff',
+		gold: '#ffd700',
+		green: '#008000',
+		indigo: '#4b0082',
+		khaki: '#f0e68c',
+		lightblue: '#add8e6',
+		lightcyan: '#e0ffff',
+		lightgreen: '#90ee90',
+		lightgrey: '#d3d3d3',
+		lightpink: '#ffb6c1',
+		lightyellow: '#ffffe0',
+		lime: '#00ff00',
+		magenta: '#ff00ff',
+		maroon: '#800000',
+		navy: '#000080',
+		olive: '#808000',
+		orange: '#ffa500',
+		pink: '#ffc0cb',
+		purple: '#800080',
+		violet: '#800080',
+		red: '#ff0000',
+		silver: '#c0c0c0',
+		white: '#ffffff',
+		yellow: '#ffff00',
+	};
 
-	var keys = Object.keys(color);
-	return color[keys[ keys.length * Math.random() << 0]];
-	
+	const keys = Object.keys(color);
+	return color[keys[keys.length * Math.random() < 0]];
 };
 
 export const getDate = () => {
 	const data = new Date();
-	const semana = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
+	const semana = [
+		'Domingo',
+		'Segunda-Feira',
+		'Terça-Feira',
+		'Quarta-Feira',
+		'Quinta-Feira',
+		'Sexta-Feira',
+		'Sábado',
+	];
 	const meses = [
-			"Janeiro",
-			"Fevereiro",
-			"Março",
-			"Abril",
-			"Maio",
-			"Junho",
-			"Julho",
-			"Agosto",
-			"Setembro",
-			"Outubro",
-			"Novembro",
-			"Dezembro"
-		  ];
-	
-	return `${semana[data.getDay()]}, ${data.getDate()} de ${meses[data.getMonth()]} de 2022`
-}
+		'Janeiro',
+		'Fevereiro',
+		'Março',
+		'Abril',
+		'Maio',
+		'Junho',
+		'Julho',
+		'Agosto',
+		'Setembro',
+		'Outubro',
+		'Novembro',
+		'Dezembro',
+	];
+
+	return `${semana[data.getDay()]}, ${data.getDate()} de ${
+		meses[data.getMonth()]
+	} de 2022`;
+};
 export const chartColors = size => {
 	const arr = [];
 	for (let i = 0; i < size; i += 1) {
